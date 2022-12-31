@@ -17,12 +17,9 @@ export const colors = [
 	"amber",
 	"orange",
 	"red",
-] as const
-
-export const shades = [
-	"warmGray",
-	"trueGray",
+	"slate",
 	"gray",
-	"coolGray",
-	"blueGray",
+	"zinc",
+	"neutral",
+	"stone",
 ] as const

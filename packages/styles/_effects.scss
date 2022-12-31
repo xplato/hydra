@@ -39,3 +39,9 @@ $focus-ring: 0 0 0 3px var(--ui-3);
 		background: #636366;
 	}
 }
+
+
+@mixin stone-bg($shade) {
+	background-color: var(--#{$shade}-600) !important;
+	color: white;
+}

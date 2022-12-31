@@ -7,7 +7,12 @@ export interface SegmentedControlProps {
 	segments: Segment[]
 	defaultSelected?: number
 	onChange?: (segment: Segment) => void
+	mods?: Mod[]
+	altClass?: string
+	className?: string
 }
+
+type Mod = "icons-only" | "equal-children"
 
 export interface Segment {
 	label: string
@@ -18,6 +23,9 @@ export const SegmentedControl = ({
 	segments,
 	defaultSelected,
 	onChange,
+	mods,
+	altClass,
+	className,
 }: SegmentedControlProps) => {
 	const [selected, setSelected] = useState<number>(defaultSelected ?? 0)
 
@@ -31,7 +39,7 @@ export const SegmentedControl = ({
 
 	useLayoutEffect(() => {
 		select(segments[defaultSelected ?? 0])
-	}, [defaultSelected, segments])
+	}, [defaultSelected])
 
 	const select = (segment: Segment) => {
 		setSelected(segments.indexOf(segment))
@@ -52,40 +60,55 @@ export const SegmentedControl = ({
 
 	return (
 		<div
-			className="hydra-segmented-control"
+			className={classNames(
+				altClass ?? "hydra-segmented-control",
+				className,
+				mods
+			)}
 			onMouseLeave={() => select(segments[selected])}
 		>
 			<div className="indicator" style={indicatorStyle}></div>
 
-			{segments.map((segment, index) => {
-				const isSelected = selected === index
+			<div
+				className={classNames(
+					"controls",
+					mods?.includes("equal-children") &&
+						`grid-${segments.length}`
+				)}
+			>
+				{segments.map((segment, index) => {
+					const isSelected = selected === index
 
-				return (
-					<button
-						key={segment.label}
-						id={getSegmentID(segment)}
-						className={classNames(
-							"segment",
-							generateMods({ isSelected })
-						)}
-						onClick={() => select(segment)}
-						onMouseOver={() => {
-							const elem = document.getElementById(
-								getSegmentID(segment)
-							)
-							setIndicatorStyle({
-								width: elem?.offsetWidth ?? "auto",
-								left: elem?.offsetLeft ?? 0,
-							})
-						}}
-					>
-						{segment.icon && (
-							<i className="icon size-5 mr-1">{segment.icon}</i>
-						)}
-						<span>{segment.label}</span>
-					</button>
-				)
-			})}
+					return (
+						<button
+							key={segment.label}
+							id={getSegmentID(segment)}
+							className={classNames(
+								"segment",
+								generateMods({ isSelected })
+							)}
+							onClick={() => select(segment)}
+							onMouseOver={() => {
+								const elem = document.getElementById(
+									getSegmentID(segment)
+								)
+
+								setIndicatorStyle({
+									width: elem?.offsetWidth ?? "auto",
+									left: elem?.offsetLeft ?? 0,
+								})
+							}}
+						>
+							{segment.icon && (
+								<i className="icon size-5 mr-1">
+									{segment.icon}
+								</i>
+							)}
+							<span>{segment.label}</span>
+						</button>
+					)
+				})}
+			</div>
 		</div>
 	)
 }

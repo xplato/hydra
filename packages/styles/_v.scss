@@ -3,7 +3,7 @@
 $breakpoints: (
 	// 'xxxxl' '2200px',
 	// 'xxxl' '1900px',
-	'xxl' 1700px,
+	"xxl" 1700px,
 	"xl" 1350px,
 	"lg" 1024px,
 	"md" 768px,
@@ -36,7 +36,12 @@ $colors: (
 	"yellow",
 	"amber",
 	"orange",
-	"red"
+	"red",
+	"slate",
+	"gray",
+	"zinc",
+	"neutral",
+	"stone"
 );
 
-$shades: ("warmGray", "trueGray", "gray", "coolGray", "blueGray");
+$shades: ("slate", "gray", "zinc", "neutral", "stone");

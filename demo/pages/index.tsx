@@ -1,8 +1,12 @@
 import {
+	BoltIcon,
 	CogIcon,
 	MapPinIcon,
+	MoonIcon,
 	PhoneArrowDownLeftIcon,
+	SunIcon,
 } from "@heroicons/react/20/solid"
+import { useTheme } from "next-themes"
 
 import {
 	Button,
@@ -33,6 +37,8 @@ const Caption = ({ children }: any) => (
 )
 
 const Home = () => {
+	const { setTheme } = useTheme()
+
 	return (
 		<section className="wfull mnh-screen py-40">
 			<div className="container">
@@ -50,7 +56,8 @@ const Home = () => {
 							<Caption>Colored</Caption>
 							<Row>
 								<Button bg="teal">Teal Button</Button>
-								<Button bg="amber">Amber Button</Button>
+								<Button bg="slate">Slate Button</Button>
+								<Button bg="zinc">Zinc Button</Button>
 							</Row>
 						</Block>
 						<Block>
@@ -151,9 +158,9 @@ const Home = () => {
 							<Caption>Default select last</Caption>
 							<SegmentedControl
 								segments={[
-									{ label: "One" },
-									{ label: "Two" },
-									{ label: "Three" },
+									{ label: "Four" },
+									{ label: "Five" },
+									{ label: "Six" },
 								]}
 								defaultSelected={2}
 							/>
@@ -169,6 +176,30 @@ const Home = () => {
 									},
 									{ label: "Settings", icon: <CogIcon /> },
 								]}
+							/>
+						</Block>
+						<Block>
+							<Caption>Icons only</Caption>
+							<SegmentedControl
+								mods={["icons-only"]}
+								segments={[
+									{
+										label: "light",
+										icon: <SunIcon />,
+									},
+									{
+										label: "dark",
+										icon: <MoonIcon />,
+									},
+									{
+										label: "system",
+										icon: <BoltIcon />,
+									},
+								]}
+								onChange={segment => {
+									console.log(segment)
+									setTheme(segment.label)
+								}}
 							/>
 						</Block>
 					</Row>

@@ -2,7 +2,7 @@ import { ThemeProvider } from "next-themes"
 
 import type { AppProps } from "next/app"
 
-import "../styles/academy.css"
+import "../styles/seam.css"
 import "../styles/global.css"
 import "@xplato/hydra/dist/hydra.css"
 
