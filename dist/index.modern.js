@@ -1,4 +1,48 @@
-import React__default, { useState, useCallback, useRef, useEffect, createContext, useContext, useLayoutEffect, useMemo, forwardRef, createElement, useId, useInsertionEffect, cloneElement, Component, Fragment, Children, isValidElement } from 'react';
+import React__default, { useRef, useState, useEffect, useCallback, createContext, useContext, useLayoutEffect, useMemo, forwardRef, createElement, useId, useInsertionEffect, cloneElement, Component, Fragment, Children, isValidElement } from 'react';
+
+const useDynamicPanel = () => {
+  const ref = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleWindowClick = ev => {
+    var _ref$current;
+    if (ref.current && typeof ((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.contains) === "function" && !ref.current.contains(ev.target)) {
+      close(ev);
+    }
+  };
+  useEffect(() => {
+    if (typeof window !== "undefined" && ref.current && isOpen) {
+      window.addEventListener("click", handleWindowClick);
+    }
+    return () => {
+      window.removeEventListener("click", handleWindowClick);
+    };
+  }, [ref.current, isOpen]);
+  const open = ev => {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    setIsOpen(true);
+  };
+  const close = ev => {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    setIsOpen(false);
+  };
+  const toggle = ev => {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    setIsOpen(isOpen => !isOpen);
+  };
+  return {
+    ref,
+    isOpen,
+    open,
+    close,
+    toggle
+  };
+};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -259,50 +303,6 @@ const Checkbox = ({
 };
 Checkbox.defaultProps = {
   layout: "horizontal"
-};
-
-const useDynamicPanel = () => {
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const handleWindowClick = ev => {
-    var _ref$current;
-    if (ref.current && typeof ((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.contains) === "function" && !ref.current.contains(ev.target)) {
-      close(ev);
-    }
-  };
-  useEffect(() => {
-    if (typeof window !== "undefined" && ref.current && isOpen) {
-      window.addEventListener("click", handleWindowClick);
-    }
-    return () => {
-      window.removeEventListener("click", handleWindowClick);
-    };
-  }, [ref.current, isOpen]);
-  const open = ev => {
-    if (ev) {
-      ev.stopPropagation();
-    }
-    setIsOpen(true);
-  };
-  const close = ev => {
-    if (ev) {
-      ev.stopPropagation();
-    }
-    setIsOpen(false);
-  };
-  const toggle = ev => {
-    if (ev) {
-      ev.stopPropagation();
-    }
-    setIsOpen(isOpen => !isOpen);
-  };
-  return {
-    ref,
-    isOpen,
-    open,
-    close,
-    toggle
-  };
 };
 
 /**
@@ -9177,6 +9177,61 @@ const Dropdown = ({}) => {
 };
 Dropdown.defaultProps = {};
 
+const SegmentedControl = ({
+  segments,
+  defaultSelected,
+  onChange
+}) => {
+  const [selected, setSelected] = useState(defaultSelected ?? 0);
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    width: "auto",
+    left: 0
+  });
+  const getSegmentID = segment => `segment-${segment.label.replaceAll(" ", "-")}`;
+  useLayoutEffect(() => {
+    select(segments[defaultSelected ?? 0]);
+  }, [defaultSelected, segments]);
+  const select = segment => {
+    setSelected(segments.indexOf(segment));
+    const elem = document.getElementById(getSegmentID(segment));
+    setIndicatorStyle({
+      width: (elem === null || elem === void 0 ? void 0 : elem.offsetWidth) ?? "auto",
+      left: (elem === null || elem === void 0 ? void 0 : elem.offsetLeft) ?? 0
+    });
+  };
+  useEffect(() => {
+    if (typeof onChange === "function") {
+      onChange(segments[selected]);
+    }
+  }, [selected]);
+  return React__default.createElement("div", {
+    className: "hydra-segmented-control",
+    onMouseLeave: () => select(segments[selected])
+  }, React__default.createElement("div", {
+    className: "indicator",
+    style: indicatorStyle
+  }), segments.map((segment, index) => {
+    const isSelected = selected === index;
+    return React__default.createElement("button", {
+      key: segment.label,
+      id: getSegmentID(segment),
+      className: classnames("segment", generateMods({
+        isSelected
+      })),
+      onClick: () => select(segment),
+      onMouseOver: () => {
+        const elem = document.getElementById(getSegmentID(segment));
+        setIndicatorStyle({
+          width: (elem === null || elem === void 0 ? void 0 : elem.offsetWidth) ?? "auto",
+          left: (elem === null || elem === void 0 ? void 0 : elem.offsetLeft) ?? 0
+        });
+      }
+    }, segment.icon && React__default.createElement("i", {
+      className: "icon size-5 mr-1"
+    }, segment.icon), React__default.createElement("span", null, segment.label));
+  }));
+};
+
 const Switch = ({
   className,
   altClass,
@@ -9213,5 +9268,5 @@ Switch.defaultProps = {
   bg: "accent"
 };
 
-export { Button, Checkbox, Dropdown, Menu, Switch };
+export { Button, Checkbox, Dropdown, Menu, SegmentedControl, Switch, useDynamicPanel };
 //# sourceMappingURL=index.modern.js.map

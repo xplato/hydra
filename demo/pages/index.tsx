@@ -1,4 +1,16 @@
-import { Button, Checkbox, Dropdown, Switch } from "@xplato/hydra"
+import {
+	CogIcon,
+	MapPinIcon,
+	PhoneArrowDownLeftIcon,
+} from "@heroicons/react/20/solid"
+
+import {
+	Button,
+	Checkbox,
+	Dropdown,
+	SegmentedControl,
+	Switch,
+} from "@xplato/hydra"
 
 const Section = ({ children }: any) => (
 	<div className="wfull VStack mb-32">{children}</div>
@@ -10,9 +22,11 @@ const Row = ({ children }: any) => (
 
 const Block = ({ children }: any) => <div className="VStack">{children}</div>
 
-const Title = ({ children }: any) => <h1 className="fs-4 mb-4">{children}</h1>
+const Title = ({ children }: any) => <h1 className="fs-8 mb-4">{children}</h1>
 
-const Text = ({ children }: any) => <p className="m-0 mb-1">{children}</p>
+const Text = ({ children }: any) => (
+	<p className="m-0 mb-8 opacity-08 lh-1-5">{children}</p>
+)
 
 const Caption = ({ children }: any) => (
 	<p className="fs--1 opacity-06 m-0 mb-1">{children}</p>
@@ -20,7 +34,7 @@ const Caption = ({ children }: any) => (
 
 const Home = () => {
 	return (
-		<section className="wfull mnh-screen pt-40">
+		<section className="wfull mnh-screen py-40">
 			<div className="container">
 				<h1 className="mb-16">Hydra</h1>
 
@@ -90,11 +104,72 @@ const Home = () => {
 
 				<Section>
 					<Title>Menu</Title>
+					<div className="mw-100">
+						<Text>
+							The <code>Dropdown</code> component, as you see
+							below, is a very primitive wrapper around the{" "}
+							<code>Menu</code> component. For most uses, you'll
+							want to create a custom wrapper around it yourself
+							using the <code>useDynamicPanel</code> hook. See
+							that file for more information.
+						</Text>
+					</div>
 
 					<Row>
 						<Block>
 							<Caption>Default</Caption>
 							<Dropdown />
+						</Block>
+					</Row>
+				</Section>
+
+				<Section>
+					<Title>Segmented Control</Title>
+					<div className="mw-100">
+						<Text>
+							The hover action is a little unconventional, but I
+							think it works nicely. On hover, it is a shallow
+							selection: the indicator will follow your mouse, but
+							when you leave without making a selection, it will
+							revert to its previous state.
+						</Text>
+					</div>
+
+					<Row>
+						<Block>
+							<Caption>Default</Caption>
+							<SegmentedControl
+								segments={[
+									{ label: "One" },
+									{ label: "Two" },
+									{ label: "Three" },
+								]}
+								onChange={segment => console.log(segment)}
+							/>
+						</Block>
+						<Block>
+							<Caption>Default select last</Caption>
+							<SegmentedControl
+								segments={[
+									{ label: "One" },
+									{ label: "Two" },
+									{ label: "Three" },
+								]}
+								defaultSelected={2}
+							/>
+						</Block>
+						<Block>
+							<Caption>With icons</Caption>
+							<SegmentedControl
+								segments={[
+									{ label: "Locate", icon: <MapPinIcon /> },
+									{
+										label: "Call",
+										icon: <PhoneArrowDownLeftIcon />,
+									},
+									{ label: "Settings", icon: <CogIcon /> },
+								]}
+							/>
 						</Block>
 					</Row>
 				</Section>

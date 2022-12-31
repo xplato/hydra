@@ -3,6 +3,54 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var React = require('react');
 var React__default = _interopDefault(React);
 
+var useDynamicPanel = function useDynamicPanel() {
+  var ref = React.useRef(null);
+  var _useState = React.useState(false),
+    isOpen = _useState[0],
+    setIsOpen = _useState[1];
+  var handleWindowClick = function handleWindowClick(ev) {
+    var _ref$current;
+    if (ref.current && typeof ((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.contains) === "function" && !ref.current.contains(ev.target)) {
+      close(ev);
+    }
+  };
+  React.useEffect(function () {
+    if (typeof window !== "undefined" && ref.current && isOpen) {
+      window.addEventListener("click", handleWindowClick);
+    }
+    return function () {
+      window.removeEventListener("click", handleWindowClick);
+    };
+  }, [ref.current, isOpen]);
+  var open = function open(ev) {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    setIsOpen(true);
+  };
+  var close = function close(ev) {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    setIsOpen(false);
+  };
+  var toggle = function toggle(ev) {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    setIsOpen(function (isOpen) {
+      return !isOpen;
+    });
+  };
+  return {
+    ref: ref,
+    isOpen: isOpen,
+    open: open,
+    close: close,
+    toggle: toggle
+  };
+};
+
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -310,54 +358,6 @@ var Checkbox = function Checkbox(_ref) {
 };
 Checkbox.defaultProps = {
   layout: "horizontal"
-};
-
-var useDynamicPanel = function useDynamicPanel() {
-  var ref = React.useRef(null);
-  var _useState = React.useState(false),
-    isOpen = _useState[0],
-    setIsOpen = _useState[1];
-  var handleWindowClick = function handleWindowClick(ev) {
-    var _ref$current;
-    if (ref.current && typeof ((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.contains) === "function" && !ref.current.contains(ev.target)) {
-      close(ev);
-    }
-  };
-  React.useEffect(function () {
-    if (typeof window !== "undefined" && ref.current && isOpen) {
-      window.addEventListener("click", handleWindowClick);
-    }
-    return function () {
-      window.removeEventListener("click", handleWindowClick);
-    };
-  }, [ref.current, isOpen]);
-  var open = function open(ev) {
-    if (ev) {
-      ev.stopPropagation();
-    }
-    setIsOpen(true);
-  };
-  var close = function close(ev) {
-    if (ev) {
-      ev.stopPropagation();
-    }
-    setIsOpen(false);
-  };
-  var toggle = function toggle(ev) {
-    if (ev) {
-      ev.stopPropagation();
-    }
-    setIsOpen(function (isOpen) {
-      return !isOpen;
-    });
-  };
-  return {
-    ref: ref,
-    isOpen: isOpen,
-    open: open,
-    close: close,
-    toggle: toggle
-  };
 };
 
 /**
@@ -9242,6 +9242,72 @@ var Dropdown = function Dropdown(_ref) {
 };
 Dropdown.defaultProps = {};
 
+var SegmentedControl = function SegmentedControl(_ref) {
+  var segments = _ref.segments,
+    defaultSelected = _ref.defaultSelected,
+    onChange = _ref.onChange;
+  var _useState = React.useState(defaultSelected != null ? defaultSelected : 0),
+    selected = _useState[0],
+    setSelected = _useState[1];
+  var _useState2 = React.useState({
+      width: "auto",
+      left: 0
+    }),
+    indicatorStyle = _useState2[0],
+    setIndicatorStyle = _useState2[1];
+  var getSegmentID = function getSegmentID(segment) {
+    return "segment-" + segment.label.replaceAll(" ", "-");
+  };
+  React.useLayoutEffect(function () {
+    select(segments[defaultSelected != null ? defaultSelected : 0]);
+  }, [defaultSelected, segments]);
+  var select = function select(segment) {
+    var _elem$offsetWidth, _elem$offsetLeft;
+    setSelected(segments.indexOf(segment));
+    var elem = document.getElementById(getSegmentID(segment));
+    setIndicatorStyle({
+      width: (_elem$offsetWidth = elem === null || elem === void 0 ? void 0 : elem.offsetWidth) != null ? _elem$offsetWidth : "auto",
+      left: (_elem$offsetLeft = elem === null || elem === void 0 ? void 0 : elem.offsetLeft) != null ? _elem$offsetLeft : 0
+    });
+  };
+  React.useEffect(function () {
+    if (typeof onChange === "function") {
+      onChange(segments[selected]);
+    }
+  }, [selected]);
+  return React__default.createElement("div", {
+    className: "hydra-segmented-control",
+    onMouseLeave: function onMouseLeave() {
+      return select(segments[selected]);
+    }
+  }, React__default.createElement("div", {
+    className: "indicator",
+    style: indicatorStyle
+  }), segments.map(function (segment, index) {
+    var isSelected = selected === index;
+    return React__default.createElement("button", {
+      key: segment.label,
+      id: getSegmentID(segment),
+      className: classnames("segment", generateMods({
+        isSelected: isSelected
+      })),
+      onClick: function onClick() {
+        return select(segment);
+      },
+      onMouseOver: function onMouseOver() {
+        var _elem$offsetWidth2, _elem$offsetLeft2;
+        var elem = document.getElementById(getSegmentID(segment));
+        setIndicatorStyle({
+          width: (_elem$offsetWidth2 = elem === null || elem === void 0 ? void 0 : elem.offsetWidth) != null ? _elem$offsetWidth2 : "auto",
+          left: (_elem$offsetLeft2 = elem === null || elem === void 0 ? void 0 : elem.offsetLeft) != null ? _elem$offsetLeft2 : 0
+        });
+      }
+    }, segment.icon && React__default.createElement("i", {
+      className: "icon size-5 mr-1"
+    }, segment.icon), React__default.createElement("span", null, segment.label));
+  }));
+};
+
 var Switch = function Switch(_ref) {
   var className = _ref.className,
     altClass = _ref.altClass,
@@ -9283,5 +9349,7 @@ exports.Button = Button;
 exports.Checkbox = Checkbox;
 exports.Dropdown = Dropdown;
 exports.Menu = Menu;
+exports.SegmentedControl = SegmentedControl;
 exports.Switch = Switch;
+exports.useDynamicPanel = useDynamicPanel;
 //# sourceMappingURL=index.js.map

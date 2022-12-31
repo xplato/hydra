@@ -8,6 +8,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.0.13",
 		"@xplato/hydra": "link:..",
 		"next": "12.2.1",
 		"react": "link:../node_modules/react",
