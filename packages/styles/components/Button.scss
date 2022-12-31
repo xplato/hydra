@@ -1,0 +1,107 @@
+@use "../v";
+@use "../effects";
+
+$bg-weight-light: 500;
+$bg-weight-dark: 600;
+$drop-shadow-weight: 600;
+$drop-shadow-dark-weight: 800;
+$drop-shadow-size: 3px;
+$drop-shadow-hover-size: 2px;
+
+.hydra-button {
+	height: auto;
+	padding: 0.5rem 0.7rem;
+	border-radius: 0.6rem;
+	background-color: var(--accent);
+	color: white;
+	font-size: 0.875rem;
+	font-weight: 500;
+	white-space: nowrap;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	position: relative;
+	box-shadow: 0 $drop-shadow-size 0 0 var(--accent-#{$drop-shadow-weight});
+	transition: var(--d-m-1) var(--e-s);
+
+	html.dark & {
+		box-shadow: 0 $drop-shadow-size 0 0
+			var(--accent-#{$drop-shadow-dark-weight});
+	}
+
+	&:hover {
+		filter: brightness(1.1);
+	}
+
+	&:active {
+		box-shadow: 0 $drop-shadow-hover-size 0 0
+			var(--accent-#{$drop-shadow-weight});
+		transform: translateY(1px);
+
+		html.dark & {
+			box-shadow: 0 $drop-shadow-hover-size 0 0
+				var(--accent-#{$drop-shadow-dark-weight});
+		}
+	}
+
+	@each $color in v.$colors {
+		&.bg-#{$color} {
+			color: white;
+			background-color: var(--#{$color}-#{$bg-weight-light});
+			box-shadow: 0
+				$drop-shadow-size
+				0
+				0
+				var(--#{$color}-#{$drop-shadow-weight});
+
+			html.dark & {
+				box-shadow: 0
+					$drop-shadow-size
+					0
+					0
+					var(--#{$color}-#{$drop-shadow-dark-weight});
+			}
+
+			&:active {
+				box-shadow: 0
+					$drop-shadow-hover-size
+					0
+					0
+					var(--#{$color}-#{$drop-shadow-weight});
+
+				html.dark & {
+					box-shadow: 0
+						$drop-shadow-hover-size
+						0
+						0
+						var(--#{$color}-#{$drop-shadow-dark-weight});
+				}
+			}
+
+			html.dark & {
+				background-color: var(--#{$color}-#{$bg-weight-dark});
+			}
+
+			&:focus-visible {
+				box-shadow: 0 0 0 4px var(--#{$color}-200);
+
+				html.dark & {
+					box-shadow: 0 0 0 4px var(--#{$color}-800);
+				}
+			}
+		}
+	}
+
+	&.size-lg {
+		border-radius: 0.6rem;
+		padding: 0.8rem 1.25rem;
+		font-size: 1rem;
+	}
+
+	&.size-sm {
+		border-radius: 0.4rem;
+		padding: 0.3rem 0.5rem;
+		font-size: 0.8125rem;
+	}
+}

@@ -1,0 +1,56 @@
+{
+	"name": "@xplato/hydra",
+	"version": "1.0.0",
+	"author": "Tristan Brewster <xplato@infi.im>",
+	"license": "MIT",
+	"repository": "https://github.com/xplato/hydra",
+	"description": "A multi-headed component library for React",
+	"keywords": [
+		"typescript",
+		"react",
+		"component library",
+		"design system"
+	],
+	"main": "dist/index.js",
+	"module": "dist/index.modern.js",
+	"source": "packages/react/index.ts",
+	"engines": {
+		"node": ">=10"
+	},
+	"scripts": {
+		"start:react": "microbundle-crl watch --no-compress --format modern,cjs",
+		"build:react": "microbundle-crl --no-compress --format modern,cjs",
+		"start:styles": "grunt watch",
+		"build:styles": "grunt sass && grunt postcss && grunt concat",
+		"start:demo": "cd demo && yarn dev"
+	},
+	"peerDependencies": {
+		"react": "16 || 17 || 18"
+	},
+	"devDependencies": {
+		"@lodder/grunt-postcss": "^3.1.1",
+		"@types/node": "^12.12.38",
+		"@types/react": "^16.9.27",
+		"@types/react-dom": "^16.9.7",
+		"autoprefixer": "^10.4.13",
+		"cross-env": "^7.0.2",
+		"grunt": "^1.5.3",
+		"grunt-contrib-concat": "^2.1.0",
+		"grunt-contrib-sass": "^2.0.0",
+		"grunt-contrib-watch": "^1.1.0",
+		"microbundle-crl": "^0.13.10",
+		"npm-run-all": "^4.1.5",
+		"postcss": "^8.4.20",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-scripts": "^3.4.1",
+		"sass": "^1.57.1",
+		"typescript": "^3.7.5"
+	},
+	"files": [
+		"dist"
+	],
+	"dependencies": {
+		"classnames": "^2.3.2"
+	}
+}

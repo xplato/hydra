@@ -1,0 +1,42 @@
+// Variables!
+
+$breakpoints: (
+	// 'xxxxl' '2200px',
+	// 'xxxl' '1900px',
+	'xxl' 1700px,
+	"xl" 1350px,
+	"lg" 1024px,
+	"md" 768px,
+	"sm" 520px,
+	"xs" 380px
+);
+
+$xxl: 1700px;
+$xl: 1350px;
+$lg: 1024px;
+$md: 768px;
+$sm: 520px;
+$xs: 380px;
+
+$colors: (
+	"accent",
+	"rose",
+	"pink",
+	"fuchsia",
+	"purple",
+	"violet",
+	"indigo",
+	"blue",
+	"sky",
+	"cyan",
+	"teal",
+	"emerald",
+	"green",
+	"lime",
+	"yellow",
+	"amber",
+	"orange",
+	"red"
+);
+
+$shades: ("warmGray", "trueGray", "gray", "coolGray", "blueGray");
