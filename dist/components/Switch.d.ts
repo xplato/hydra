@@ -1,10 +1,7 @@
 /// <reference types="react" />
-import { CommonProps, CommonFormProps } from "../types";
-import { ColoredComponent } from '../common';
-export interface SwitchProps extends CommonProps, CommonFormProps<boolean>, ColoredComponent {
+import { CommonProps, CommonFormProps, CommonToggleProps, ColoredComponent } from "../types";
+export interface SwitchProps extends CommonProps, CommonFormProps<boolean>, ColoredComponent, CommonToggleProps {
     defaultOn?: boolean;
-    toggleControlAltClass?: string;
-    toggleControlClassname?: string;
 }
 export declare const Switch: {
     ({ className, altClass, defaultOn, toggleControlAltClass, toggleControlClassname, onChange, label, layout, bg, }: SwitchProps): JSX.Element;

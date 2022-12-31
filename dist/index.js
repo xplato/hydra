@@ -2,7 +2,6 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var React = require('react');
 var React__default = _interopDefault(React);
-var classNames = _interopDefault(require('classnames'));
 
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
@@ -16,6 +15,66 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   }
   return target;
 }
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var classnames = createCommonjsModule(function (module) {
+/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames() {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				if (arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
+				}
+			} else if (argType === 'object') {
+				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+					classes.push(arg.toString());
+					continue;
+				}
+
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else {
+		window.classNames = classNames;
+	}
+}());
+});
 
 var kebabize = function kebabize(str) {
   return str.replaceAll(" ", "-").split("").map(function (letter, index) {
@@ -56,7 +115,7 @@ var Button = function Button(_ref) {
     if (_onClick) _onClick(ev);
   };
   return React__default.createElement("button", Object.assign({
-    className: classNames(altClass != null ? altClass : "hydra-button", generateMods({
+    className: classnames(altClass != null ? altClass : "hydra-button", generateMods({
       size: size,
       bg: bg
     }), className),
@@ -66,6 +125,54 @@ var Button = function Button(_ref) {
 Button.defaultProps = {
   size: "default",
   bg: "accent"
+};
+
+var icons = {
+  check: React__default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "16",
+    height: "16",
+    fill: "currentColor",
+    viewBox: "0 0 16 16"
+  }, React__default.createElement("path", {
+    d: "M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"
+  }))
+};
+
+var Checkbox = function Checkbox(_ref) {
+  var label = _ref.label,
+    layout = _ref.layout,
+    defaultChecked = _ref.defaultChecked,
+    onChange = _ref.onChange,
+    bg = _ref.bg,
+    altClass = _ref.altClass,
+    className = _ref.className,
+    toggleControlAltClass = _ref.toggleControlAltClass,
+    toggleControlClassname = _ref.toggleControlClassname;
+  var _useState = React.useState(defaultChecked || false),
+    checked = _useState[0],
+    setChecked = _useState[1];
+  var toggle = React.useCallback(function () {
+    setChecked(!checked);
+    onChange && onChange(!checked);
+  }, [checked]);
+  return React__default.createElement("div", {
+    className: classnames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", toggleControlClassname, layout)
+  }, React__default.createElement("button", {
+    onClick: toggle,
+    className: classnames(altClass != null ? altClass : "hydra-checkbox", generateMods({
+      bg: bg
+    }), className),
+    "data-checked": checked
+  }, checked && React__default.createElement("i", {
+    className: "icon size-5"
+  }, icons.check)), label && React__default.createElement("div", {
+    className: "label-wrap",
+    onClick: toggle
+  }, React__default.createElement("label", null, typeof label === "function" ? label(checked) : label)));
+};
+Checkbox.defaultProps = {
+  layout: "horizontal"
 };
 
 var Switch = function Switch(_ref) {
@@ -86,10 +193,10 @@ var Switch = function Switch(_ref) {
     onChange && onChange(!on);
   }, [on]);
   return React__default.createElement("div", {
-    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", layout, toggleControlClassname)
+    className: classnames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", layout, toggleControlClassname)
   }, React__default.createElement("button", {
     onClick: toggle,
-    className: classNames(altClass != null ? altClass : "hydra-switch", generateMods({
+    className: classnames(altClass != null ? altClass : "hydra-switch", generateMods({
       on: on,
       bg: bg
     }), className)
@@ -106,5 +213,6 @@ Switch.defaultProps = {
 };
 
 exports.Button = Button;
+exports.Checkbox = Checkbox;
 exports.Switch = Switch;
 //# sourceMappingURL=index.js.map

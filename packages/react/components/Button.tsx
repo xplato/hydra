@@ -1,10 +1,12 @@
 import React, { MouseEventHandler } from "react"
 import classNames from "classnames"
 
-import { ColoredComponent } from '../common'
 import { generateMods } from "../logic"
+import { ColoredComponent } from "../types"
 
-export interface ButtonProps extends ColoredComponent, React.HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+	extends ColoredComponent,
+		React.HTMLAttributes<HTMLButtonElement> {
 	altClass?: string
 	size?: "sm" | "default" | "lg"
 }

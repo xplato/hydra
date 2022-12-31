@@ -1,0 +1,54 @@
+@use "../v";
+@use "../effects";
+
+.hydra-checkbox {
+	appearance: none;
+	width: calc(1.25rem + 2px);
+	height: 1.25rem;
+	background-color: var(--ui-2);
+	border: none;
+	border-radius: 0.25rem;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 2px 0 0 var(--ui-3);
+	transition: var(--d-m-2) var(--e-s);
+
+	&[data-checked="true"] {
+		background-color: var(--accent);
+		box-shadow: 0 2px 0 0 var(--accent-600);
+
+		&:active {
+			box-shadow: 0 1px 0 0 var(--accent-600);
+		}
+	}
+
+	&:hover {
+		border-color: var(--ui-3);
+	}
+
+	&:active {
+		transform: translateY(1px);
+		box-shadow: 0 1px 0 0 var(--ui-3);
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&:focus-visible {
+		box-shadow: 0 0 0 3px var(--accent-200);
+
+		html.dark & {
+			box-shadow: 0 0 0 3px var(--accent-800);
+		}
+	}
+	
+	@each $color in v.$colors {
+		&[data-checked="true"].bg-#{$color} {
+			background-color: var(--#{$color}-500) !important;
+			box-shadow: 0 2px 0 0 var(--#{$color}-600) !important;
+		}
+	}
+}

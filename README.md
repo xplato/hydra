@@ -34,3 +34,8 @@ Although the styles are all global, Hydra's component styles are scoped, so ther
 - `yarn build:react` - Build the `react` package (compiles to `dist/`)
 - `yarn start:styles` - Start watching the `styles` package
 - `yarn build:styles` - Build the `styles` package (compiles to `dist/hydra.css`)
+
+### Development Notes
+
+- `dist/` is committed so that this package can be installed directly from GitHub.
+- `react/` and `styles/` are separate packages so that they can be published independently and used interchangeably.

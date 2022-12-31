@@ -1,4 +1,4 @@
-import { Button, Switch } from "@xplato/hydra"
+import { Button, Checkbox, Switch } from "@xplato/hydra"
 
 const Section = ({ children }: any) => (
 	<div className="wfull VStack mb-32">{children}</div>
@@ -12,9 +12,7 @@ const Block = ({ children }: any) => <div className="VStack">{children}</div>
 
 const Title = ({ children }: any) => <h1 className="fs-4 mb-4">{children}</h1>
 
-const Text = ({ children }: any) => (
-	<p className="m-0 mb-1">{children}</p>
-)
+const Text = ({ children }: any) => <p className="m-0 mb-1">{children}</p>
 
 const Caption = ({ children }: any) => (
 	<p className="fs--1 opacity-06 m-0 mb-1">{children}</p>
@@ -53,22 +51,67 @@ const Home = () => {
 				</Section>
 
 				<Section>
+					<Title>Checkbox</Title>
+
+					<Row>
+						<Block>
+							<Caption>Default</Caption>
+							<Checkbox
+								label={checked =>
+									checked ? "Checked" : "Not checked"
+								}
+							/>
+						</Block>
+
+						<Block>
+							<Caption>On by default</Caption>
+							<Checkbox
+								label={checked =>
+									checked ? "Checked" : "Not checked"
+								}
+								defaultChecked
+							/>
+						</Block>
+
+						<Block>
+							<Caption>Colored</Caption>
+							<Checkbox
+								label={checked =>
+									checked
+										? "Checked, and purple"
+										: "Not checked"
+								}
+								bg="purple"
+								defaultChecked
+							/>
+						</Block>
+					</Row>
+				</Section>
+
+				<Section>
 					<Title>Switch</Title>
 
 					<Row>
 						<Block>
 							<Caption>Default</Caption>
-							<Switch label={(on) => on ? "On" : "Off"} />
+							<Switch label={on => (on ? "On" : "Off")} />
 						</Block>
 
 						<Block>
 							<Caption>On by default</Caption>
-							<Switch label={(on) => on ? "On" : "Off"} defaultOn />
+							<Switch
+								label={on => (on ? "On" : "Off")}
+								defaultOn
+							/>
 						</Block>
 
 						<Block>
 							<Caption>Colored</Caption>
-							<Switch label={(on) => on ? "On, and green" : "Off"} defaultOn bg="green" />
+							<Switch
+								label={on => (on ? "On, and green" : "Off")}
+								defaultOn
+								bg="green"
+							/>
 						</Block>
 					</Row>
 				</Section>

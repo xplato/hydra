@@ -1,4 +1,4 @@
 import { colors } from './v';
 export interface ColoredComponent {
-    bg?: typeof colors[keyof typeof colors];
+    bgcolor?: typeof colors[keyof typeof colors];
 }

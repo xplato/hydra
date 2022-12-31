@@ -3,13 +3,19 @@ import classNames from "classnames"
 
 import { generateMods } from "../logic"
 
-import { CommonProps, CommonFormProps } from "../types"
-import { ColoredComponent } from '../common'
+import {
+	CommonProps,
+	CommonFormProps,
+	CommonToggleProps,
+	ColoredComponent,
+} from "../types"
 
-export interface SwitchProps extends CommonProps, CommonFormProps<boolean>, ColoredComponent {
+export interface SwitchProps
+	extends CommonProps,
+		CommonFormProps<boolean>,
+		ColoredComponent,
+		CommonToggleProps {
 	defaultOn?: boolean
-	toggleControlAltClass?: string
-	toggleControlClassname?: string
 }
 
 export const Switch = ({
@@ -21,7 +27,7 @@ export const Switch = ({
 	onChange,
 	label,
 	layout,
-  bg,
+	bg,
 }: SwitchProps) => {
 	const [on, setOn] = useState(defaultOn || false)
 
@@ -51,7 +57,9 @@ export const Switch = ({
 
 			{label && (
 				<div className="label-wrap" onClick={toggle}>
-					<label>{typeof label === "function" ? label(on) : label}</label>
+					<label>
+						{typeof label === "function" ? label(on) : label}
+					</label>
 				</div>
 			)}
 		</div>
@@ -60,5 +68,5 @@ export const Switch = ({
 
 Switch.defaultProps = {
 	layout: "horizontal",
-  bg: "accent",
+	bg: "accent",
 }
