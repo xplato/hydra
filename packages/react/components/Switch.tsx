@@ -3,19 +3,18 @@ import classNames from "classnames"
 
 import { generateMods } from "../logic"
 
-import {
-	CommonProps,
-	CommonFormProps,
-	CommonToggleProps,
-	ColoredComponent,
-} from "../types"
+import { Color, Layout } from '../types'
 
-export interface SwitchProps
-	extends CommonProps,
-		CommonFormProps<boolean>,
-		ColoredComponent,
-		CommonToggleProps {
+export interface SwitchProps {
+	label?: string | ((currentValue: boolean) => string)
+	onChange?: (currentValue: boolean) => void
 	defaultOn?: boolean
+	layout?: Layout
+	bg?: Color
+	altClass?: string
+	className?: string
+	toggleControlAltClass?: string
+	toggleControlClassname?: string
 }
 
 export const Switch = ({

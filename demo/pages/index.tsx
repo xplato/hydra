@@ -1,4 +1,4 @@
-import { Button, Checkbox, Switch } from "@xplato/hydra"
+import { Button, Checkbox, Dropdown, Switch } from "@xplato/hydra"
 
 const Section = ({ children }: any) => (
 	<div className="wfull VStack mb-32">{children}</div>
@@ -84,6 +84,17 @@ const Home = () => {
 								bg="purple"
 								defaultChecked
 							/>
+						</Block>
+					</Row>
+				</Section>
+
+				<Section>
+					<Title>Menu</Title>
+
+					<Row>
+						<Block>
+							<Caption>Default</Caption>
+							<Dropdown />
 						</Block>
 					</Row>
 				</Section>

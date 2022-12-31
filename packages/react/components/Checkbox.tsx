@@ -1,21 +1,21 @@
 import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
-import { icons } from "../icons"
-import {
-	ColoredComponent,
-	CommonFormProps,
-	CommonProps,
-	CommonToggleProps,
-} from "../types"
 import { generateMods } from "../logic"
+import { icons } from "../data"
 
-interface Props
-	extends CommonProps,
-		CommonFormProps<boolean>,
-		CommonToggleProps,
-		ColoredComponent {
+import { Color, Layout } from '../types'
+
+interface CheckboxProps {
+	onChange?: (currentValue: boolean) => void
+	label?: string | ((currentValue: boolean) => string)
+	layout?: Layout
 	defaultChecked?: boolean
+	bg?: Color
+	altClass?: string
+	className?: string
+	toggleControlAltClass?: string
+	toggleControlClassname?: string
 }
 
 export const Checkbox = ({
@@ -28,7 +28,7 @@ export const Checkbox = ({
 	className,
 	toggleControlAltClass,
 	toggleControlClassname,
-}: Props) => {
+}: CheckboxProps) => {
 	const [checked, setChecked] = useState(defaultChecked || false)
 
 	const toggle = useCallback(() => {

@@ -1,6 +1,7 @@
 import React from "react";
-import { ColoredComponent } from "../types";
-export interface ButtonProps extends ColoredComponent, React.HTMLAttributes<HTMLButtonElement> {
+import { Color } from '../types';
+export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+    bg: Color;
     altClass?: string;
     size?: "sm" | "default" | "lg";
 }

@@ -1,0 +1,110 @@
+// I'll probably change this to a CSS variable later on
+// to handle dynamic sizing.
+$size: 14rem;
+
+.hydra-menu,
+.hydra-submenu {
+	padding: 0.5rem 0;
+	display: flex;
+	width: $size;
+	background-color: var(--ui);
+	border-radius: 0.75rem;
+	box-shadow: rgb(27 31 36 / 12%) 0px 1px 3px,
+		rgb(66 74 83 / 12%) 0px 8px 24px;
+	will-change: transform;
+	position: absolute;
+	z-index: 20;
+	overflow: hidden;
+
+	html.dark & {
+		background-color: var(--ui-2);
+	}
+}
+
+.hydra-menu {
+	& .wrapper {
+		position: relative;
+	}
+
+	& .action-wrap {
+		width: 100%;
+		padding: 0 0.5rem;
+	}
+
+	& .menu-action {
+		width: 100%;
+		padding: 0.5rem 0.5rem;
+		border-radius: 0.5rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: row;
+		background-color: transparent;
+		cursor: pointer;
+		user-select: none;
+		transition: var(--d-f-1) var(--e-s);
+
+		&.highlighted {
+			background-color: var(--ui-1);
+
+			html.dark & {
+				background-color: var(--ui-3);
+			}
+		}
+
+		&:hover,
+		&:focus {
+			background-color: var(--ui-1);
+		}
+
+		&:active {
+			background-color: var(--accent-600);
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&.selected {
+			background-color: var(--accent) !important;
+			color: white !important;
+		}
+
+		&.submenu-open {
+			background-color: var(--ui-1);
+		}
+
+		& span {
+			font-size: 0.9rem;
+			line-height: 1;
+			text-align: left;
+		}
+
+		& .action-content {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			flex-direction: row;
+
+			& .icon {
+				margin-right: 0.25rem;
+			}
+		}
+	}
+
+	& .separator {
+		width: 100%;
+		height: 2px;
+		background-color: var(--ui-1);
+		margin: 0.5rem 0;
+
+		html.dark & {
+			background-color: var(--ui-3);
+		}
+	}
+}
+
+.hydra-submenu {
+	top: calc(0.5rem * -1);
+	left: $size;
+}
