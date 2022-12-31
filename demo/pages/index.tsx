@@ -42,25 +42,79 @@ const Home = () => {
 	const { setTheme } = useTheme()
 
 	const [accent, setAccent] = useState("sky")
+	const [shade, setShade] = useState("gray")
 
 	useEffect(() => {
 		const html = document.querySelector("html")
 
 		if (html) {
 			html.classList.add(accent)
+			html.classList.add(`shade-${shade}`)
 		}
 
 		return () => {
 			if (html) {
 				html.classList.remove(accent)
+				html.classList.remove(`shade-${shade}`)
 			}
 		}
-	}, [accent])
+	}, [accent, shade])
+
+	const getIndexWeight = (index: number) => {
+		return index === 0 ? "50" : `${index}00`
+	}
 
 	return (
 		<section className="wfull mnh-screen py-40">
 			<div className="container">
-				<h1 className="mb-16">Hydra</h1>
+				<h1 className="mb-16">Hydra Component Library</h1>
+
+				<Section>
+					<div className="HStack align-s gap-1">
+						<Title>Accent</Title>
+						<Caption>({accent})</Caption>
+					</div>
+					<div className="wfull grid grid-10">
+						{[...Array(10).keys()].map(index => (
+							<div key={index} className="grid-block">
+								<div
+									className={`wfull flex-c h-28 bg-accent-${getIndexWeight(
+										index
+									)}`}
+								></div>
+
+								<div className="wfull CVStack">
+									<p className="m-0 mt-4 opacity-0.8">
+										{getIndexWeight(index)}
+									</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</Section>
+
+				<Section>
+					<div className="HStack align-s gap-1">
+						<Title>Shade</Title>
+						<Caption>({shade})</Caption>
+					</div>
+					<div className="wfull grid grid-10">
+						{[...Array(10).keys()].map(index => (
+							<div key={index} className="grid-block">
+								<div
+									className={`wfull h-28 bg-${getIndexWeight(
+										index
+									)}`}
+								></div>
+								<div className="wfull CVStack">
+									<p className="m-0 mt-4 opacity-0.8">
+										{getIndexWeight(index)}
+									</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</Section>
 
 				<Section>
 					<Title>Buttons</Title>
@@ -187,7 +241,7 @@ const Home = () => {
 						</Block>
 
 						<Block>
-							<Caption>Select menu</Caption>
+							<Caption>Select menu (Colors)</Caption>
 							<Select
 								triggerChildren={option => (
 									<span>{option.label}</span>
@@ -218,6 +272,33 @@ const Home = () => {
 									{ label: "Amber", value: "amber" },
 									{ label: "Orange", value: "orange" },
 									{ label: "Red", value: "red" },
+									{ label: "Slate", value: "slate" },
+									{ label: "Gray", value: "gray" },
+									{ label: "Zinc", value: "zinc" },
+									{ label: "Neutral", value: "neutral" },
+									{ label: "Stone", value: "stone" },
+								]}
+								menuProps={{
+									top: 42,
+								}}
+							/>
+						</Block>
+
+						<Block>
+							<Caption>Select menu (Shades)</Caption>
+							<Select
+								triggerChildren={option => (
+									<span>{option.label}</span>
+								)}
+								triggerClassName="hydra-button color-accent"
+								onChange={option => setShade(option.value)}
+								defaultSelected={{
+									label:
+										shade.charAt(0).toUpperCase() +
+										shade.slice(1),
+									value: shade,
+								}}
+								options={[
 									{ label: "Slate", value: "slate" },
 									{ label: "Gray", value: "gray" },
 									{ label: "Zinc", value: "zinc" },
