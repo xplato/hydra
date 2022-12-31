@@ -2,6 +2,10 @@
 
 A multi-headed component library for React.
 
+## Documentation
+
+TBD
+
 ## Development Documentation
 
 In Hydra, components are separate from their styles. This allows us to use the same components in different contexts, and to use the same styles in different contexts. Hydra is not a headless component library, but a multi-headed one (thus the name).

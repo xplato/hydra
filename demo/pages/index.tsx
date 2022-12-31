@@ -1,7 +1,7 @@
-import { Button } from "@xplato/hydra"
+import { Button, Switch } from "@xplato/hydra"
 
 const Section = ({ children }: any) => (
-	<div className="wfull VStack">{children}</div>
+	<div className="wfull VStack mb-32">{children}</div>
 )
 
 const Row = ({ children }: any) => (
@@ -11,6 +11,10 @@ const Row = ({ children }: any) => (
 const Block = ({ children }: any) => <div className="VStack">{children}</div>
 
 const Title = ({ children }: any) => <h1 className="fs-4 mb-4">{children}</h1>
+
+const Text = ({ children }: any) => (
+	<p className="m-0 mb-1">{children}</p>
+)
 
 const Caption = ({ children }: any) => (
 	<p className="fs--1 opacity-06 m-0 mb-1">{children}</p>
@@ -24,6 +28,7 @@ const Home = () => {
 
 				<Section>
 					<Title>Buttons</Title>
+
 					<Row>
 						<Block>
 							<Caption>Default</Caption>
@@ -43,6 +48,27 @@ const Home = () => {
 						<Block>
 							<Caption>Large</Caption>
 							<Button size="lg">Large Button</Button>
+						</Block>
+					</Row>
+				</Section>
+
+				<Section>
+					<Title>Switch</Title>
+
+					<Row>
+						<Block>
+							<Caption>Default</Caption>
+							<Switch label={(on) => on ? "On" : "Off"} />
+						</Block>
+
+						<Block>
+							<Caption>On by default</Caption>
+							<Switch label={(on) => on ? "On" : "Off"} defaultOn />
+						</Block>
+
+						<Block>
+							<Caption>Colored</Caption>
+							<Switch label={(on) => on ? "On, and green" : "Off"} defaultOn bg="green" />
 						</Block>
 					</Row>
 				</Section>
