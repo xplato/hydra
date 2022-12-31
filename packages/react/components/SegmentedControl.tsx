@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import classNames from "classnames"
 
 import { generateMods } from "../logic"
@@ -27,7 +27,7 @@ export const SegmentedControl = ({
 	altClass,
 	className,
 }: SegmentedControlProps) => {
-	const [selected, setSelected] = useState<number>(defaultSelected ?? 0)
+	const [selected, setSelected] = useState<number | undefined>(undefined)
 
 	const [indicatorStyle, setIndicatorStyle] = useState<React.CSSProperties>({
 		width: "auto",
@@ -37,8 +37,10 @@ export const SegmentedControl = ({
 	const getSegmentID = (segment: Segment) =>
 		`segment-${segment.label.replaceAll(" ", "-")}`
 
-	useLayoutEffect(() => {
-		select(segments[defaultSelected ?? 0])
+	useEffect(() => {
+		if (selected === undefined) {
+			select(segments[defaultSelected ?? 0])
+		}
 	}, [defaultSelected])
 
 	const select = (segment: Segment) => {
@@ -54,7 +56,7 @@ export const SegmentedControl = ({
 
 	useEffect(() => {
 		if (typeof onChange === "function") {
-			onChange(segments[selected])
+			onChange(segments[selected || 0])
 		}
 	}, [selected])
 
@@ -65,7 +67,7 @@ export const SegmentedControl = ({
 				className,
 				mods
 			)}
-			onMouseLeave={() => select(segments[selected])}
+			onMouseLeave={() => select(segments[selected || 0])}
 		>
 			<div className="indicator" style={indicatorStyle}></div>
 

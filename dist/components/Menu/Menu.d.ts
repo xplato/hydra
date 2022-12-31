@@ -10,6 +10,7 @@ export interface MenuProps {
     right?: number | string | boolean;
     bottom?: number | string | boolean;
     left?: number | string | boolean;
+    size?: "sm" | "default";
     leaveDoesCloseMenu?: boolean;
     actionClickDoesCloseMenu?: boolean;
     [key: string]: any;

@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { ChevronRightIcon } from "@heroicons/react/20/solid"
 
 import MenuActions from "./MenuActions"
 import MenuAction from "./MenuAction"
@@ -24,6 +25,10 @@ const SubmenuItem = ({ actionProps, config }: Props) => {
 	const open = () => setIsOpen(true)
 	const close = () => setIsOpen(false)
 
+	const props: Omit<ActionProps, "onClick"> = Object.assign({}, actionProps, {
+		onClick: undefined,
+	})
+
 	return (
 		<div
 			className="wrapper"
@@ -35,8 +40,11 @@ const SubmenuItem = ({ actionProps, config }: Props) => {
 			<MenuAction
 				submenuOpen={isOpen}
 				config={config}
-				// icon={<ChevronRightIcon />}
-				{...actionProps}
+				iconRight={<ChevronRightIcon />}
+				onClick={ev => {
+					ev?.preventDefault()
+				}}
+				{...props}
 			/>
 
 			<AnimatePresence>

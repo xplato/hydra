@@ -32,7 +32,7 @@ $size: 14rem;
 
 	& .menu-action {
 		width: 100%;
-		padding: 0.7rem 0.5rem;
+		padding: 0.6rem 0.7rem;
 		border-radius: 0.5rem;
 		display: flex;
 		justify-content: space-between;
@@ -61,7 +61,7 @@ $size: 14rem;
 		}
 
 		&:active {
-			background-color: var(--accent-600);
+			background-color: var(--bg-200);
 		}
 
 		&:focus {
@@ -78,12 +78,18 @@ $size: 14rem;
 		}
 
 		& span {
-			font-size: 0.9rem;
+			font-size: 1rem;
 			line-height: 1;
 			text-align: left;
 		}
 
+		// Don't let icons affect the height of the action
+		& i {
+			position: absolute;
+		}
+
 		& .action-content {
+			width: 100%;
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
@@ -92,6 +98,22 @@ $size: 14rem;
 			& .icon {
 				margin-right: 0.25rem;
 			}
+		}
+	}
+
+	&.size-sm .menu-action {
+		padding: 0.5rem 0.5rem;
+
+		& span {
+			font-size: 0.9rem;
+		}
+	}
+
+	&.size-default .menu-action {
+		padding: 0.6rem 0.7rem;
+
+		& span {
+			font-size: 1rem;
 		}
 	}
 

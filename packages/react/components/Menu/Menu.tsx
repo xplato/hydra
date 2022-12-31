@@ -7,6 +7,7 @@ import MenuActions from "./MenuActions"
 import { transition, variants } from "../../data"
 
 import { Action, ActionConfig } from "./types"
+import { generateMods } from "../../logic"
 
 export interface MenuProps {
 	isOpen: boolean
@@ -20,6 +21,8 @@ export interface MenuProps {
 	right?: number | string | boolean
 	bottom?: number | string | boolean
 	left?: number | string | boolean
+
+	size?: "sm" | "default"
 
 	leaveDoesCloseMenu?: boolean
 	actionClickDoesCloseMenu?: boolean
@@ -41,6 +44,8 @@ export const Menu = forwardRef(
 			right,
 			bottom,
 			left,
+
+			size,
 
 			leaveDoesCloseMenu,
 			actionClickDoesCloseMenu,
@@ -94,7 +99,11 @@ export const Menu = forwardRef(
 								  }
 								: transition.ui.menu
 						}
-						className={classNames("hydra-menu", className)}
+						className={classNames(
+							"hydra-menu",
+							className,
+							generateMods({ size })
+						)}
 						style={{
 							transformOrigin: origin,
 							top: getPositionValue(top),
@@ -106,6 +115,7 @@ export const Menu = forwardRef(
 						aria-orientation="vertical"
 						aria-labelledby="menu-button"
 						aria-busy={isAnimating}
+						onClick={ev => ev.stopPropagation()}
 						onAnimationStart={() => setIsAnimating(true)}
 						onAnimationComplete={() => setIsAnimating(false)}
 						onMouseLeave={onMouseLeave}
@@ -149,6 +159,7 @@ export const Menu = forwardRef(
 Menu.defaultProps = {
 	origin: "top left",
 	top: "1rem",
+	size: "default",
 
 	leaveDoesCloseMenu: false,
 	actionClickDoesCloseMenu: true,

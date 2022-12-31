@@ -5,47 +5,26 @@ import React from "react"
 import { useDynamicPanel } from "../hooks"
 
 import { Button } from "./Button"
-import { Menu } from "./Menu"
+import { Menu, MenuProps } from "./Menu"
+
+import { Action } from "../types"
 
 interface DropdownProps {
-	isOpen: boolean
-	close: () => void
+	actions: Action[]
+	menuProps?: Partial<MenuProps>
 }
 
-export const Dropdown = ({}: DropdownProps) => {
+export const Dropdown = ({ actions, menuProps }: DropdownProps) => {
 	const menu = useDynamicPanel<HTMLDivElement>()
 
 	return (
 		<div className="hydra-dropdown">
 			<Button onClick={menu.toggle}>Open</Button>
 			<Menu
-				top={42}
-				actions={[
-					{
-						label: "Action 1",
-					},
-					{
-						label: "Action 2",
-					},
-					{
-						label: "Action 3",
-						submenu: [
-							{
-								label: "Action 1",
-							},
-							{
-								label: "Action 2",
-							},
-							{
-								label: "Action 3",
-							},
-						],
-					},
-					{
-						label: "Action 4",
-					},
-				]}
+				top={menuProps?.top || 42}
+				actions={actions}
 				{...menu}
+				{...menuProps}
 			/>
 		</div>
 	)

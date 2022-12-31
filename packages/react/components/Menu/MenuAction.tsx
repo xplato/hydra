@@ -6,13 +6,20 @@ import { generateMods } from "../../logic"
 import { Action, ActionConfig } from "./types"
 
 interface Props extends Action {
-	icon?: React.ReactNode
 	click?: MouseEventHandler
 	submenuOpen?: boolean
 	config: ActionConfig
 }
 
-const MenuAction = ({ click, label, icon, submenuOpen, config }: Props) => {
+const MenuAction = ({
+	click,
+	label,
+	iconLeft,
+	iconRight,
+	contentRight,
+	submenuOpen,
+	config,
+}: Props) => {
 	const ref = useRef<HTMLButtonElement>(null)
 
 	const onClick: MouseEventHandler = ev => {
@@ -34,8 +41,24 @@ const MenuAction = ({ click, label, icon, submenuOpen, config }: Props) => {
 				tabIndex={0}
 			>
 				<div className="action-content">
-					{icon && <i className="icon size-5">{icon}</i>}
-					<span>{label}</span>
+					<div className="wfull SBStack">
+						<div className="HStack">
+							{iconLeft && (
+								<div className="relative">
+									<i className="icon size-5">{iconLeft}</i>
+								</div>
+							)}
+							<span>{label}</span>
+						</div>
+						<div className="HStack">
+							{iconRight && (
+								<div className="relative flex-c">
+									<i className="icon size-5">{iconRight}</i>
+								</div>
+							)}
+							{contentRight}
+						</div>
+					</div>
 				</div>
 			</button>
 		</div>

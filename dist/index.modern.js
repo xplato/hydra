@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, forwardRef, useLayoutEffect } from 'react';
+import React__default, { useRef, useState, useEffect, useCallback, forwardRef, createElement, useMemo } from 'react';
 import classNames from 'classnames';
 import { useReducedMotion, AnimatePresence, motion } from 'framer-motion';
 
@@ -84,7 +84,7 @@ const Button = ({
   const onClick = ev => {
     if (_onClick) _onClick(ev);
   };
-  return React.createElement("button", Object.assign({
+  return React__default.createElement("button", Object.assign({
     className: classNames(altClass ?? "hydra-button", generateMods({
       size,
       color
@@ -98,13 +98,13 @@ Button.defaultProps = {
 };
 
 const icons = {
-  check: React.createElement("svg", {
+  check: React__default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     width: "16",
     height: "16",
     fill: "currentColor",
     viewBox: "0 0 16 16"
-  }, React.createElement("path", {
+  }, React__default.createElement("path", {
     d: "M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"
   }))
 };
@@ -228,20 +228,20 @@ const Checkbox = ({
     setChecked(!checked);
     onChange && onChange(!checked);
   }, [checked]);
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: classNames(toggleControlAltClass ?? "hydra-toggle-control", toggleControlClassname, layout)
-  }, React.createElement("button", {
+  }, React__default.createElement("button", {
     onClick: toggle,
     className: classNames(altClass ?? "hydra-checkbox", generateMods({
       color
     }), className),
     "data-checked": checked
-  }, checked && React.createElement("i", {
+  }, checked && React__default.createElement("i", {
     className: "icon size-5"
-  }, icons.check)), label && React.createElement("div", {
+  }, icons.check)), label && React__default.createElement("div", {
     className: "label-wrap",
     onClick: toggle
-  }, React.createElement("label", null, typeof label === "function" ? label(checked) : label)));
+  }, React__default.createElement("label", null, typeof label === "function" ? label(checked) : label)));
 };
 Checkbox.defaultProps = {
   layout: "horizontal"
@@ -250,7 +250,9 @@ Checkbox.defaultProps = {
 const MenuAction = ({
   click,
   label,
-  icon,
+  iconLeft,
+  iconRight,
+  contentRight,
   submenuOpen,
   config
 }) => {
@@ -260,9 +262,9 @@ const MenuAction = ({
       click(ev);
     }
   };
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: "action-wrap"
-  }, React.createElement("button", {
+  }, React__default.createElement("button", {
     ref: ref,
     onClick: onClick,
     className: classNames("menu-action px-4 py-2-5", generateMods({
@@ -271,12 +273,47 @@ const MenuAction = ({
     })),
     role: "menuitem",
     tabIndex: 0
-  }, React.createElement("div", {
+  }, React__default.createElement("div", {
     className: "action-content"
-  }, icon && React.createElement("i", {
+  }, React__default.createElement("div", {
+    className: "wfull SBStack"
+  }, React__default.createElement("div", {
+    className: "HStack"
+  }, iconLeft && React__default.createElement("div", {
+    className: "relative"
+  }, React__default.createElement("i", {
     className: "icon size-5"
-  }, icon), React.createElement("span", null, label))));
+  }, iconLeft)), React__default.createElement("span", null, label)), React__default.createElement("div", {
+    className: "HStack"
+  }, iconRight && React__default.createElement("div", {
+    className: "relative flex-c"
+  }, React__default.createElement("i", {
+    className: "icon size-5"
+  }, iconRight)), contentRight)))));
 };
+
+function ChevronRightIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 20 20",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/createElement("path", {
+    fillRule: "evenodd",
+    d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
+    clipRule: "evenodd"
+  }));
+}
+
+const ForwardRef = forwardRef(ChevronRightIcon);
 
 const SubmenuItem = ({
   actionProps,
@@ -286,16 +323,23 @@ const SubmenuItem = ({
   const shouldReduceMotion = useReducedMotion();
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
-  return React.createElement("div", {
+  const props = Object.assign({}, actionProps, {
+    onClick: undefined
+  });
+  return React__default.createElement("div", {
     className: "wrapper",
     onFocus: open,
     onBlur: close,
     onMouseOver: open,
     onMouseLeave: close
-  }, React.createElement(MenuAction, Object.assign({
+  }, React__default.createElement(MenuAction, Object.assign({
     submenuOpen: isOpen,
-    config: config
-  }, actionProps)), React.createElement(AnimatePresence, null, isOpen && React.createElement(motion.div, {
+    config: config,
+    iconRight: React__default.createElement(ForwardRef, null),
+    onClick: ev => {
+      ev === null || ev === void 0 ? void 0 : ev.preventDefault();
+    }
+  }, props)), React__default.createElement(AnimatePresence, null, isOpen && React__default.createElement(motion.div, {
     variants: variants.fade.in.right,
     initial: "hidden",
     animate: "visible",
@@ -308,7 +352,7 @@ const SubmenuItem = ({
       duration: 0.4
     },
     className: "hydra-submenu"
-  }, React.createElement(MenuActions, {
+  }, React__default.createElement(MenuActions, {
     actions: actionProps.submenu ?? [],
     actionClickDoesCloseMenu: true,
     close: close,
@@ -322,7 +366,7 @@ const MenuActions = ({
   close,
   config
 }) => {
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: "w-100p actions",
     role: "none"
   }, actions.map((action, index) => {
@@ -335,7 +379,7 @@ const MenuActions = ({
       }
     };
     if (action.label === "separator") {
-      return React.createElement("div", {
+      return React__default.createElement("div", {
         key: action.id,
         className: "separator"
       });
@@ -346,13 +390,13 @@ const MenuActions = ({
       ...action
     };
     if (action.submenu) {
-      return React.createElement(SubmenuItem, {
+      return React__default.createElement(SubmenuItem, {
         key: action.label,
         actionProps: actionProps,
         config: config
       });
     }
-    return React.createElement(MenuAction, Object.assign({
+    return React__default.createElement(MenuAction, Object.assign({
       key: action.label,
       config: config
     }, actionProps));
@@ -369,6 +413,7 @@ const Menu = forwardRef(({
   right,
   bottom,
   left,
+  size,
   leaveDoesCloseMenu,
   actionClickDoesCloseMenu,
   className,
@@ -393,7 +438,7 @@ const Menu = forwardRef(({
       close();
     }
   };
-  return React.createElement(AnimatePresence, null, isOpen && React.createElement(motion.div, Object.assign({
+  return React__default.createElement(AnimatePresence, null, isOpen && React__default.createElement(motion.div, Object.assign({
     ref: ref,
     variants: variants.scale.subtle,
     initial: "hidden",
@@ -402,7 +447,9 @@ const Menu = forwardRef(({
     transition: shouldReduceMotion ? {
       duration: 0
     } : transition.ui.menu,
-    className: classNames("hydra-menu", className),
+    className: classNames("hydra-menu", className, generateMods({
+      size
+    })),
     style: {
       transformOrigin: origin,
       top: getPositionValue(top),
@@ -414,12 +461,13 @@ const Menu = forwardRef(({
     "aria-orientation": "vertical",
     "aria-labelledby": "menu-button",
     "aria-busy": isAnimating,
+    onClick: ev => ev.stopPropagation(),
     onAnimationStart: () => setIsAnimating(true),
     onAnimationComplete: () => setIsAnimating(false),
     onMouseLeave: onMouseLeave
-  }, props), React.createElement("div", {
+  }, props), React__default.createElement("div", {
     className: "wfull p-0"
-  }, React.createElement(MenuActions, {
+  }, React__default.createElement(MenuActions, {
     actions: actions,
     actionClickDoesCloseMenu: actionClickDoesCloseMenu,
     close: close,
@@ -431,35 +479,24 @@ const Menu = forwardRef(({
 Menu.defaultProps = {
   origin: "top left",
   top: "1rem",
+  size: "default",
   leaveDoesCloseMenu: false,
   actionClickDoesCloseMenu: true
 };
 
-const Dropdown = ({}) => {
+const Dropdown = ({
+  actions,
+  menuProps
+}) => {
   const menu = useDynamicPanel();
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: "hydra-dropdown"
-  }, React.createElement(Button, {
+  }, React__default.createElement(Button, {
     onClick: menu.toggle
-  }, "Open"), React.createElement(Menu, Object.assign({
-    top: 42,
-    actions: [{
-      label: "Action 1"
-    }, {
-      label: "Action 2"
-    }, {
-      label: "Action 3",
-      submenu: [{
-        label: "Action 1"
-      }, {
-        label: "Action 2"
-      }, {
-        label: "Action 3"
-      }]
-    }, {
-      label: "Action 4"
-    }]
-  }, menu)));
+  }, "Open"), React__default.createElement(Menu, Object.assign({
+    top: (menuProps === null || menuProps === void 0 ? void 0 : menuProps.top) || 42,
+    actions: actions
+  }, menu, menuProps)));
 };
 Dropdown.defaultProps = {};
 
@@ -471,14 +508,16 @@ const SegmentedControl = ({
   altClass,
   className
 }) => {
-  const [selected, setSelected] = useState(defaultSelected ?? 0);
+  const [selected, setSelected] = useState(undefined);
   const [indicatorStyle, setIndicatorStyle] = useState({
     width: "auto",
     left: 0
   });
   const getSegmentID = segment => `segment-${segment.label.replaceAll(" ", "-")}`;
-  useLayoutEffect(() => {
-    select(segments[defaultSelected ?? 0]);
+  useEffect(() => {
+    if (selected === undefined) {
+      select(segments[defaultSelected ?? 0]);
+    }
   }, [defaultSelected]);
   const select = segment => {
     setSelected(segments.indexOf(segment));
@@ -490,20 +529,20 @@ const SegmentedControl = ({
   };
   useEffect(() => {
     if (typeof onChange === "function") {
-      onChange(segments[selected]);
+      onChange(segments[selected || 0]);
     }
   }, [selected]);
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: classNames(altClass ?? "hydra-segmented-control", className, mods),
-    onMouseLeave: () => select(segments[selected])
-  }, React.createElement("div", {
+    onMouseLeave: () => select(segments[selected || 0])
+  }, React__default.createElement("div", {
     className: "indicator",
     style: indicatorStyle
-  }), React.createElement("div", {
+  }), React__default.createElement("div", {
     className: classNames("controls", (mods === null || mods === void 0 ? void 0 : mods.includes("equal-children")) && `grid-${segments.length}`)
   }, segments.map((segment, index) => {
     const isSelected = selected === index;
-    return React.createElement("button", {
+    return React__default.createElement("button", {
       key: segment.label,
       id: getSegmentID(segment),
       className: classNames("segment", generateMods({
@@ -517,10 +556,49 @@ const SegmentedControl = ({
           left: (elem === null || elem === void 0 ? void 0 : elem.offsetLeft) ?? 0
         });
       }
-    }, segment.icon && React.createElement("i", {
+    }, segment.icon && React__default.createElement("i", {
       className: "icon size-5 mr-1"
-    }, segment.icon), React.createElement("span", null, segment.label));
+    }, segment.icon), React__default.createElement("span", null, segment.label));
   })));
+};
+
+const Select = ({
+  options,
+  defaultSelected,
+  onChange,
+  triggerChildren,
+  triggerClassName,
+  menuProps
+}) => {
+  const menu = useDynamicPanel();
+  const [selected, setSelected] = React__default.useState(defaultSelected || options[0]);
+  const select = option => {
+    setSelected(option);
+    if (typeof onChange === "function") {
+      onChange(option);
+    }
+    menu.close();
+  };
+  const actions = useMemo(() => {
+    return options.map(option => {
+      const isSelected = (selected === null || selected === void 0 ? void 0 : selected.value) === option.value;
+      return {
+        ...option,
+        onClick: () => select(option),
+        contentRight: isSelected && React__default.createElement("div", {
+          className: "dot"
+        })
+      };
+    });
+  }, [options, selected]);
+  return React__default.createElement("div", {
+    className: "hydra-select"
+  }, React__default.createElement("button", {
+    onClick: menu.toggle,
+    className: classNames(triggerClassName)
+  }, typeof triggerChildren === "function" ? triggerChildren(selected) : triggerChildren), React__default.createElement(Menu, Object.assign({
+    actions: actions
+  }, menu, menuProps)));
 };
 
 const Switch = ({
@@ -539,25 +617,25 @@ const Switch = ({
     setOn(!on);
     onChange && onChange(!on);
   }, [on]);
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: classNames(toggleControlAltClass ?? "hydra-toggle-control", layout, toggleControlClassname)
-  }, React.createElement("button", {
+  }, React__default.createElement("button", {
     onClick: toggle,
     className: classNames(altClass ?? "hydra-switch", generateMods({
       on,
       color
     }), className)
-  }, React.createElement("div", {
+  }, React__default.createElement("div", {
     className: "bg"
-  })), label && React.createElement("div", {
+  })), label && React__default.createElement("div", {
     className: "label-wrap",
     onClick: toggle
-  }, React.createElement("label", null, typeof label === "function" ? label(on) : label)));
+  }, React__default.createElement("label", null, typeof label === "function" ? label(on) : label)));
 };
 Switch.defaultProps = {
   layout: "horizontal",
   color: "accent"
 };
 
-export { Button, Checkbox, Dropdown, Menu, SegmentedControl, Switch, useDynamicPanel };
+export { Button, Checkbox, Dropdown, Menu, SegmentedControl, Select, Switch, useDynamicPanel };
 //# sourceMappingURL=index.modern.js.map

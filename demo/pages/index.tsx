@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import {
 	BoltIcon,
 	CogIcon,
@@ -13,6 +14,7 @@ import {
 	Checkbox,
 	Dropdown,
 	SegmentedControl,
+	Select,
 	Switch,
 } from "@xplato/hydra"
 
@@ -21,7 +23,7 @@ const Section = ({ children }: any) => (
 )
 
 const Row = ({ children }: any) => (
-	<div className="wfull HStack gap-6">{children}</div>
+	<div className="wfull HStack align-s gap-6">{children}</div>
 )
 
 const Block = ({ children }: any) => <div className="VStack">{children}</div>
@@ -38,6 +40,22 @@ const Caption = ({ children }: any) => (
 
 const Home = () => {
 	const { setTheme } = useTheme()
+
+	const [accent, setAccent] = useState("sky")
+
+	useEffect(() => {
+		const html = document.querySelector("html")
+
+		if (html) {
+			html.classList.add(accent)
+		}
+
+		return () => {
+			if (html) {
+				html.classList.remove(accent)
+			}
+		}
+	}, [accent])
 
 	return (
 		<section className="wfull mnh-screen py-40">
@@ -110,7 +128,7 @@ const Home = () => {
 				</Section>
 
 				<Section>
-					<Title>Menu</Title>
+					<Title>Menu and Select</Title>
 					<div className="mw-100">
 						<Text>
 							The <code>Dropdown</code> component, as you see
@@ -124,8 +142,92 @@ const Home = () => {
 
 					<Row>
 						<Block>
-							<Caption>Default</Caption>
-							<Dropdown />
+							<Caption>Dropdown menu (small)</Caption>
+							<Dropdown
+								actions={[
+									{
+										label: "Action 1",
+									},
+									{
+										label: "Action 2",
+									},
+									{
+										label: "Action 3",
+										submenu: [
+											{
+												label: "Action 1",
+											},
+											{
+												label: "Action 2",
+											},
+											{
+												label: "Action 3",
+												submenu: [
+													{
+														label: "Action 1",
+													},
+													{
+														label: "Action 2",
+													},
+													{
+														label: "Action 3",
+													},
+												],
+											},
+										],
+									},
+									{
+										label: "Action 4",
+									},
+								]}
+								menuProps={{
+									size: "sm",
+								}}
+							/>
+						</Block>
+
+						<Block>
+							<Caption>Select menu</Caption>
+							<Select
+								triggerChildren={option => (
+									<span>{option.label}</span>
+								)}
+								triggerClassName="hydra-button color-accent"
+								onChange={option => setAccent(option.value)}
+								defaultSelected={{
+									label:
+										accent.charAt(0).toUpperCase() +
+										accent.slice(1),
+									value: accent,
+								}}
+								options={[
+									{ label: "Rose", value: "rose" },
+									{ label: "Pink", value: "pink" },
+									{ label: "Fuchsia", value: "fuchsia" },
+									{ label: "Purple", value: "purple" },
+									{ label: "Violet", value: "violet" },
+									{ label: "Indigo", value: "indigo" },
+									{ label: "Blue", value: "blue" },
+									{ label: "Sky", value: "sky" },
+									{ label: "Cyan", value: "cyan" },
+									{ label: "Teal", value: "teal" },
+									{ label: "Emerald", value: "emerald" },
+									{ label: "Green", value: "green" },
+									{ label: "Lime", value: "lime" },
+									{ label: "Yellow", value: "yellow" },
+									{ label: "Amber", value: "amber" },
+									{ label: "Orange", value: "orange" },
+									{ label: "Red", value: "red" },
+									{ label: "Slate", value: "slate" },
+									{ label: "Gray", value: "gray" },
+									{ label: "Zinc", value: "zinc" },
+									{ label: "Neutral", value: "neutral" },
+									{ label: "Stone", value: "stone" },
+								]}
+								menuProps={{
+									top: 42,
+								}}
+							/>
 						</Block>
 					</Row>
 				</Section>

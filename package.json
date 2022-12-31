@@ -51,6 +51,7 @@
 		"dist"
 	],
 	"dependencies": {
+		"@heroicons/react": "^2.0.13",
 		"classnames": "^2.3.2",
 		"framer-motion": "^8.0.2"
 	}
