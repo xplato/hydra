@@ -7,17 +7,16 @@ $size: 14rem;
 	padding: 0.5rem 0;
 	display: flex;
 	width: $size;
-	background-color: var(--ui);
+	background-color: var(--bg);
 	border-radius: 0.75rem;
 	box-shadow: rgb(27 31 36 / 12%) 0px 1px 3px,
 		rgb(66 74 83 / 12%) 0px 8px 24px;
 	will-change: transform;
 	position: absolute;
 	z-index: 20;
-	overflow: hidden;
 
 	html.dark & {
-		background-color: var(--ui-2);
+		background-color: var(--bg-100);
 	}
 }
 
@@ -45,16 +44,20 @@ $size: 14rem;
 		transition: var(--d-f-1) var(--e-s);
 
 		&.highlighted {
-			background-color: var(--ui-1);
+			background-color: var(--bg-100);
 
 			html.dark & {
-				background-color: var(--ui-3);
+				background-color: var(--bg-200);
 			}
 		}
 
 		&:hover,
 		&:focus {
-			background-color: var(--ui-1);
+			background-color: var(--bg-100);
+
+			html.dark & {
+				background-color: var(--bg-200);
+			}
 		}
 
 		&:active {
@@ -71,7 +74,7 @@ $size: 14rem;
 		}
 
 		&.submenu-open {
-			background-color: var(--ui-1);
+			background-color: var(--bg-100);
 		}
 
 		& span {
@@ -95,11 +98,11 @@ $size: 14rem;
 	& .separator {
 		width: 100%;
 		height: 2px;
-		background-color: var(--ui-1);
+		background-color: var(--bg-100);
 		margin: 0.5rem 0;
 
 		html.dark & {
-			background-color: var(--ui-3);
+			background-color: var(--bg-300);
 		}
 	}
 }

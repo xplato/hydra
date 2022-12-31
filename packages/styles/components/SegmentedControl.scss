@@ -1,31 +1,19 @@
 @use "../effects";
 
-// .hydra-segmented-control {
-// 	border-radius: 0.5rem;
-// 	padding: 0.25rem;
-// 	position: relative;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	flex-direction: row;
-// 	gap: 0.5rem;
-// 	background-color: var(--ui-2);
-
-// 	& .segment {
-
-// 	}
-// }
-
 .hydra-segmented-control {
 	padding: 1.5px;
 	position: relative;
-	background: rgba(118, 118, 128, 0.12);
+	background: var(--bg-100);
 	border-radius: 8.91px;
 	display: flex;
 	gap: 0.25rem;
 
+	&:active .indicator {
+		transform: scale(0.95);
+	}
+
 	html.dark & {
-		background: rgba(118, 118, 128, 0.24);
+		background: var(--bg-200);
 		border-radius: 8.91px;
 	}
 
@@ -34,6 +22,7 @@
 		position: absolute;
 		z-index: 1;
 		transition: var(--d-m-2) var(--e-s);
+
 		@include effects.dynamic-bg();
 	}
 

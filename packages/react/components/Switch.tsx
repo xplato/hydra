@@ -10,7 +10,7 @@ export interface SwitchProps {
 	onChange?: (currentValue: boolean) => void
 	defaultOn?: boolean
 	layout?: Layout
-	bg?: Color
+	color?: Color
 	altClass?: string
 	className?: string
 	toggleControlAltClass?: string
@@ -26,7 +26,7 @@ export const Switch = ({
 	onChange,
 	label,
 	layout,
-	bg,
+	color,
 }: SwitchProps) => {
 	const [on, setOn] = useState(defaultOn || false)
 
@@ -47,7 +47,7 @@ export const Switch = ({
 				onClick={toggle}
 				className={classNames(
 					altClass ?? "hydra-switch",
-					generateMods({ on, bg }),
+					generateMods({ on, color }),
 					className
 				)}
 			>
@@ -67,5 +67,5 @@ export const Switch = ({
 
 Switch.defaultProps = {
 	layout: "horizontal",
-	bg: "accent",
+	color: "accent",
 }

@@ -5,16 +5,16 @@ export interface SwitchProps {
     onChange?: (currentValue: boolean) => void;
     defaultOn?: boolean;
     layout?: Layout;
-    bg?: Color;
+    color?: Color;
     altClass?: string;
     className?: string;
     toggleControlAltClass?: string;
     toggleControlClassname?: string;
 }
 export declare const Switch: {
-    ({ className, altClass, defaultOn, toggleControlAltClass, toggleControlClassname, onChange, label, layout, bg, }: SwitchProps): JSX.Element;
+    ({ className, altClass, defaultOn, toggleControlAltClass, toggleControlClassname, onChange, label, layout, color, }: SwitchProps): JSX.Element;
     defaultProps: {
         layout: string;
-        bg: string;
+        color: string;
     };
 };

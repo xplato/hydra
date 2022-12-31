@@ -46,7 +46,7 @@ $drop-shadow-hover-size: 2px;
 	}
 
 	@each $color in v.$colors {
-		&.bg-#{$color} {
+		&.color-#{$color} {
 			color: white;
 			background-color: var(--#{$color}-#{$bg-weight-light});
 			box-shadow: 0

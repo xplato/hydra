@@ -5,8 +5,9 @@ import { generateMods } from "../logic"
 
 import { Color } from '../types'
 
+// @ts-ignore
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-	bg: Color
+	color: Color
 	altClass?: string
 	size?: "sm" | "default" | "lg"
 }
@@ -14,7 +15,7 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 export const Button = ({
 	altClass,
 	size,
-	bg,
+	color,
 	onClick: _onClick,
 	className,
 	children,
@@ -28,7 +29,7 @@ export const Button = ({
 		<button
 			className={classNames(
 				altClass ?? "hydra-button",
-				generateMods({ size, bg }),
+				generateMods({ size, color }),
 				className
 			)}
 			onClick={onClick}
@@ -41,5 +42,5 @@ export const Button = ({
 
 Button.defaultProps = {
 	size: "default",
-	bg: "accent",
+	color: "accent",
 }

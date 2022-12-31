@@ -5,5 +5,5 @@ interface Props extends Children, MotionProps {
     onClick?: MouseEventHandler;
     [key: string]: any;
 }
-declare const Entity: React.ForwardRefExoticComponent<Pick<Props, React.ReactText> & React.RefAttributes<unknown>>;
+declare const Entity: React.ForwardRefExoticComponent<Pick<Props, React.Key> & React.RefAttributes<unknown>>;
 export default Entity;

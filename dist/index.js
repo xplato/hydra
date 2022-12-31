@@ -109,11 +109,11 @@ var generateMods = function generateMods(mods) {
   });
 };
 
-var _excluded = ["altClass", "size", "bg", "onClick", "className", "children"];
+var _excluded = ["altClass", "size", "color", "onClick", "className", "children"];
 var Button = function Button(_ref) {
   var altClass = _ref.altClass,
     size = _ref.size,
-    bg = _ref.bg,
+    color = _ref.color,
     _onClick = _ref.onClick,
     className = _ref.className,
     children = _ref.children,
@@ -124,14 +124,14 @@ var Button = function Button(_ref) {
   return React__default.createElement("button", Object.assign({
     className: classNames(altClass != null ? altClass : "hydra-button", generateMods({
       size: size,
-      bg: bg
+      color: color
     }), className),
     onClick: onClick
   }, props), children);
 };
 Button.defaultProps = {
   size: "default",
-  bg: "accent"
+  color: "accent"
 };
 
 var icons = {
@@ -271,7 +271,7 @@ var Checkbox = function Checkbox(_ref) {
     layout = _ref.layout,
     defaultChecked = _ref.defaultChecked,
     onChange = _ref.onChange,
-    bg = _ref.bg,
+    color = _ref.color,
     altClass = _ref.altClass,
     className = _ref.className,
     toggleControlAltClass = _ref.toggleControlAltClass,
@@ -288,7 +288,7 @@ var Checkbox = function Checkbox(_ref) {
   }, React__default.createElement("button", {
     onClick: toggle,
     className: classNames(altClass != null ? altClass : "hydra-checkbox", generateMods({
-      bg: bg
+      color: color
     }), className),
     "data-checked": checked
   }, checked && React__default.createElement("i", {
@@ -608,7 +608,7 @@ var Switch = function Switch(_ref) {
     onChange = _ref.onChange,
     label = _ref.label,
     layout = _ref.layout,
-    bg = _ref.bg;
+    color = _ref.color;
   var _useState = React.useState(defaultOn || false),
     on = _useState[0],
     setOn = _useState[1];
@@ -622,7 +622,7 @@ var Switch = function Switch(_ref) {
     onClick: toggle,
     className: classNames(altClass != null ? altClass : "hydra-switch", generateMods({
       on: on,
-      bg: bg
+      color: color
     }), className)
   }, React__default.createElement("div", {
     className: "bg"
@@ -633,7 +633,7 @@ var Switch = function Switch(_ref) {
 };
 Switch.defaultProps = {
   layout: "horizontal",
-  bg: "accent"
+  color: "accent"
 };
 
 exports.Button = Button;

@@ -55,9 +55,9 @@ const Home = () => {
 						<Block>
 							<Caption>Colored</Caption>
 							<Row>
-								<Button bg="teal">Teal Button</Button>
-								<Button bg="slate">Slate Button</Button>
-								<Button bg="zinc">Zinc Button</Button>
+								<Button color="teal">Teal Button</Button>
+								<Button color="slate">Slate Button</Button>
+								<Button color="zinc">Zinc Button</Button>
 							</Row>
 						</Block>
 						<Block>
@@ -102,7 +102,7 @@ const Home = () => {
 										? "Checked, and purple"
 										: "Not checked"
 								}
-								bg="purple"
+								color="purple"
 								defaultChecked
 							/>
 						</Block>
@@ -227,7 +227,7 @@ const Home = () => {
 							<Switch
 								label={on => (on ? "On, and green" : "Off")}
 								defaultOn
-								bg="green"
+								color="green"
 							/>
 						</Block>
 					</Row>

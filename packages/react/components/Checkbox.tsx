@@ -11,7 +11,7 @@ interface CheckboxProps {
 	label?: string | ((currentValue: boolean) => string)
 	layout?: Layout
 	defaultChecked?: boolean
-	bg?: Color
+	color?: Color
 	altClass?: string
 	className?: string
 	toggleControlAltClass?: string
@@ -23,7 +23,7 @@ export const Checkbox = ({
 	layout,
 	defaultChecked,
 	onChange,
-	bg,
+	color,
 	altClass,
 	className,
 	toggleControlAltClass,
@@ -48,7 +48,7 @@ export const Checkbox = ({
 				onClick={toggle}
 				className={classNames(
 					altClass ?? "hydra-checkbox",
-					generateMods({ bg }),
+					generateMods({ color }),
 					className
 				)}
 				data-checked={checked}

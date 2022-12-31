@@ -2,136 +2,102 @@ import React, { useRef, useState, useEffect, useCallback, forwardRef, useLayoutE
 import classNames from 'classnames';
 import { useReducedMotion, AnimatePresence, motion } from 'framer-motion';
 
-var useDynamicPanel = function useDynamicPanel() {
-  var ref = useRef(null);
-  var _useState = useState(false),
-    isOpen = _useState[0],
-    setIsOpen = _useState[1];
-  var handleWindowClick = function handleWindowClick(ev) {
+const useDynamicPanel = () => {
+  const ref = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleWindowClick = ev => {
     var _ref$current;
     if (ref.current && typeof ((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.contains) === "function" && !ref.current.contains(ev.target)) {
       close(ev);
     }
   };
-  useEffect(function () {
+  useEffect(() => {
     if (typeof window !== "undefined" && ref.current && isOpen) {
       window.addEventListener("click", handleWindowClick);
     }
-    return function () {
+    return () => {
       window.removeEventListener("click", handleWindowClick);
     };
   }, [ref.current, isOpen]);
-  var open = function open(ev) {
+  const open = ev => {
     if (ev) {
       ev.stopPropagation();
     }
     setIsOpen(true);
   };
-  var close = function close(ev) {
+  const close = ev => {
     if (ev) {
       ev.stopPropagation();
     }
     setIsOpen(false);
   };
-  var toggle = function toggle(ev) {
+  const toggle = ev => {
     if (ev) {
       ev.stopPropagation();
     }
-    setIsOpen(function (isOpen) {
-      return !isOpen;
-    });
+    setIsOpen(isOpen => !isOpen);
   };
   return {
-    ref: ref,
-    isOpen: isOpen,
-    open: open,
-    close: close,
-    toggle: toggle
+    ref,
+    isOpen,
+    open,
+    close,
+    toggle
   };
 };
 
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-function _objectDestructuringEmpty(obj) {
-  if (obj == null) throw new TypeError("Cannot destructure " + obj);
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-  return target;
-}
-
-var kebabize = function kebabize(str) {
-  return str.replaceAll(" ", "-").split("").map(function (letter, index) {
+const kebabize = str => {
+  return str.replaceAll(" ", "-").split("").map((letter, index) => {
     if (letter === "-") {
       return "-";
     }
-    return letter.toUpperCase() === letter ? "" + (index !== 0 ? "-" : "") + letter.toLowerCase() : letter;
+    return letter.toUpperCase() === letter ? `${index !== 0 ? "-" : ""}${letter.toLowerCase()}` : letter;
   }).join("");
 };
 
-var generateMods = function generateMods(mods) {
-  var keys = Object.keys(mods);
+const generateMods = mods => {
+  const keys = Object.keys(mods);
   if (keys.length === 0) {
     return "";
   }
-  return keys.map(function (key) {
-    var value = mods[key];
+  return keys.map(key => {
+    const value = mods[key];
     if (value === true) {
       return kebabize(key);
     }
     if (!value) {
       return "";
     }
-    return kebabize(key) + "-" + (typeof value === "number" ? value : kebabize(value));
+    return `${kebabize(key)}-${typeof value === "number" ? value : kebabize(value)}`;
   });
 };
 
-var _excluded = ["altClass", "size", "bg", "onClick", "className", "children"];
-var Button = function Button(_ref) {
-  var altClass = _ref.altClass,
-    size = _ref.size,
-    bg = _ref.bg,
-    _onClick = _ref.onClick,
-    className = _ref.className,
-    children = _ref.children,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded);
-  var onClick = function onClick(ev) {
+const Button = ({
+  altClass,
+  size,
+  color,
+  onClick: _onClick,
+  className,
+  children,
+  ...props
+}) => {
+  const onClick = ev => {
     if (_onClick) _onClick(ev);
   };
   return React.createElement("button", Object.assign({
-    className: classNames(altClass != null ? altClass : "hydra-button", generateMods({
-      size: size,
-      bg: bg
+    className: classNames(altClass ?? "hydra-button", generateMods({
+      size,
+      color
     }), className),
     onClick: onClick
   }, props), children);
 };
 Button.defaultProps = {
   size: "default",
-  bg: "accent"
+  color: "accent"
 };
 
-var icons = {
+const icons = {
   check: React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     width: "16",
@@ -143,9 +109,9 @@ var icons = {
   }))
 };
 
-var variants = {
+const variants = {
   fade: {
-    "default": {
+    default: {
       hidden: {
         opacity: 0
       },
@@ -153,7 +119,7 @@ var variants = {
         opacity: 1
       }
     },
-    "in": {
+    in: {
       up: {
         hidden: {
           opacity: 0,
@@ -222,39 +188,22 @@ var variants = {
     menu: {}
   }
 };
-var transition = {
-  tween: function tween(duration, delay) {
-    if (duration === void 0) {
-      duration = 0.5;
-    }
-    if (delay === void 0) {
-      delay = 0;
-    }
-    return {
-      type: "tween",
-      duration: duration,
-      delay: delay
-    };
-  },
-  spring: function spring(duration, delay, _ref) {
-    if (duration === void 0) {
-      duration = 0.5;
-    }
-    if (delay === void 0) {
-      delay = 0;
-    }
-    var _ref$stiffness = _ref.stiffness,
-      stiffness = _ref$stiffness === void 0 ? 100 : _ref$stiffness,
-      _ref$damping = _ref.damping,
-      damping = _ref$damping === void 0 ? 100 : _ref$damping;
-    return {
-      type: "spring",
-      duration: duration,
-      delay: delay,
-      stiffness: stiffness,
-      damping: damping
-    };
-  },
+const transition = {
+  tween: (duration = 0.5, delay = 0) => ({
+    type: "tween",
+    duration,
+    delay
+  }),
+  spring: (duration = 0.5, delay = 0, {
+    stiffness: _stiffness = 100,
+    damping: _damping = 100
+  }) => ({
+    type: "spring",
+    duration,
+    delay,
+    stiffness: _stiffness,
+    damping: _damping
+  }),
   ui: {
     menu: {
       type: "spring",
@@ -263,29 +212,28 @@ var transition = {
   }
 };
 
-var Checkbox = function Checkbox(_ref) {
-  var label = _ref.label,
-    layout = _ref.layout,
-    defaultChecked = _ref.defaultChecked,
-    onChange = _ref.onChange,
-    bg = _ref.bg,
-    altClass = _ref.altClass,
-    className = _ref.className,
-    toggleControlAltClass = _ref.toggleControlAltClass,
-    toggleControlClassname = _ref.toggleControlClassname;
-  var _useState = useState(defaultChecked || false),
-    checked = _useState[0],
-    setChecked = _useState[1];
-  var toggle = useCallback(function () {
+const Checkbox = ({
+  label,
+  layout,
+  defaultChecked,
+  onChange,
+  color,
+  altClass,
+  className,
+  toggleControlAltClass,
+  toggleControlClassname
+}) => {
+  const [checked, setChecked] = useState(defaultChecked || false);
+  const toggle = useCallback(() => {
     setChecked(!checked);
     onChange && onChange(!checked);
   }, [checked]);
   return React.createElement("div", {
-    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", toggleControlClassname, layout)
+    className: classNames(toggleControlAltClass ?? "hydra-toggle-control", toggleControlClassname, layout)
   }, React.createElement("button", {
     onClick: toggle,
-    className: classNames(altClass != null ? altClass : "hydra-checkbox", generateMods({
-      bg: bg
+    className: classNames(altClass ?? "hydra-checkbox", generateMods({
+      color
     }), className),
     "data-checked": checked
   }, checked && React.createElement("i", {
@@ -299,14 +247,15 @@ Checkbox.defaultProps = {
   layout: "horizontal"
 };
 
-var MenuAction = function MenuAction(_ref) {
-  var click = _ref.click,
-    label = _ref.label,
-    icon = _ref.icon,
-    submenuOpen = _ref.submenuOpen,
-    config = _ref.config;
-  var ref = useRef(null);
-  var onClick = function onClick(ev) {
+const MenuAction = ({
+  click,
+  label,
+  icon,
+  submenuOpen,
+  config
+}) => {
+  const ref = useRef(null);
+  const onClick = ev => {
     if (typeof click === "function") {
       click(ev);
     }
@@ -317,7 +266,7 @@ var MenuAction = function MenuAction(_ref) {
     ref: ref,
     onClick: onClick,
     className: classNames("menu-action px-4 py-2-5", generateMods({
-      submenuOpen: submenuOpen,
+      submenuOpen,
       color: config.color || "gray"
     })),
     role: "menuitem",
@@ -329,20 +278,14 @@ var MenuAction = function MenuAction(_ref) {
   }, icon), React.createElement("span", null, label))));
 };
 
-var SubmenuItem = function SubmenuItem(_ref) {
-  var _actionProps$submenu;
-  var actionProps = _ref.actionProps,
-    config = _ref.config;
-  var _useState = useState(false),
-    isOpen = _useState[0],
-    setIsOpen = _useState[1];
-  var shouldReduceMotion = useReducedMotion();
-  var open = function open() {
-    return setIsOpen(true);
-  };
-  var close = function close() {
-    return setIsOpen(false);
-  };
+const SubmenuItem = ({
+  actionProps,
+  config
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
   return React.createElement("div", {
     className: "wrapper",
     onFocus: open,
@@ -353,7 +296,7 @@ var SubmenuItem = function SubmenuItem(_ref) {
     submenuOpen: isOpen,
     config: config
   }, actionProps)), React.createElement(AnimatePresence, null, isOpen && React.createElement(motion.div, {
-    variants: variants.fade["in"].right,
+    variants: variants.fade.in.right,
     initial: "hidden",
     animate: "visible",
     exit: "hidden",
@@ -366,23 +309,24 @@ var SubmenuItem = function SubmenuItem(_ref) {
     },
     className: "hydra-submenu"
   }, React.createElement(MenuActions, {
-    actions: (_actionProps$submenu = actionProps.submenu) != null ? _actionProps$submenu : [],
+    actions: actionProps.submenu ?? [],
     actionClickDoesCloseMenu: true,
     close: close,
     config: config
   }))));
 };
 
-var MenuActions = function MenuActions(_ref) {
-  var actions = _ref.actions,
-    actionClickDoesCloseMenu = _ref.actionClickDoesCloseMenu,
-    close = _ref.close,
-    config = _ref.config;
+const MenuActions = ({
+  actions,
+  actionClickDoesCloseMenu,
+  close,
+  config
+}) => {
   return React.createElement("div", {
     className: "w-100p actions",
     role: "none"
-  }, actions.map(function (action, index) {
-    var onClick = function onClick(ev) {
+  }, actions.map((action, index) => {
+    const onClick = ev => {
       if (actionClickDoesCloseMenu && action.clickDoesCloseMenu !== false) {
         close();
       }
@@ -396,10 +340,11 @@ var MenuActions = function MenuActions(_ref) {
         className: "separator"
       });
     }
-    var actionProps = _extends({
+    const actionProps = {
       index: index,
-      click: onClick
-    }, action);
+      click: onClick,
+      ...action
+    };
     if (action.submenu) {
       return React.createElement(SubmenuItem, {
         key: action.label,
@@ -414,26 +359,24 @@ var MenuActions = function MenuActions(_ref) {
   }));
 };
 
-var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
-var Menu = forwardRef(function (_ref, ref) {
-  var isOpen = _ref.isOpen,
-    close = _ref.close,
-    actions = _ref.actions,
-    config = _ref.config,
-    origin = _ref.origin,
-    top = _ref.top,
-    right = _ref.right,
-    bottom = _ref.bottom,
-    left = _ref.left,
-    leaveDoesCloseMenu = _ref.leaveDoesCloseMenu,
-    actionClickDoesCloseMenu = _ref.actionClickDoesCloseMenu,
-    className = _ref.className,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$1);
-  var _useState = useState(false),
-    isAnimating = _useState[0],
-    setIsAnimating = _useState[1];
-  var shouldReduceMotion = useReducedMotion();
-  var getPositionValue = function getPositionValue(value) {
+const Menu = forwardRef(({
+  isOpen,
+  close,
+  actions,
+  config,
+  origin,
+  top,
+  right,
+  bottom,
+  left,
+  leaveDoesCloseMenu,
+  actionClickDoesCloseMenu,
+  className,
+  ...props
+}, ref) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const getPositionValue = value => {
     if (typeof value === "undefined") {
       return "auto";
     }
@@ -441,11 +384,11 @@ var Menu = forwardRef(function (_ref, ref) {
       return "0";
     }
     if (typeof value === "number") {
-      return value + "px";
+      return `${value}px`;
     }
     return value;
   };
-  var onMouseLeave = function onMouseLeave() {
+  const onMouseLeave = () => {
     if (leaveDoesCloseMenu) {
       close();
     }
@@ -471,12 +414,8 @@ var Menu = forwardRef(function (_ref, ref) {
     "aria-orientation": "vertical",
     "aria-labelledby": "menu-button",
     "aria-busy": isAnimating,
-    onAnimationStart: function onAnimationStart() {
-      return setIsAnimating(true);
-    },
-    onAnimationComplete: function onAnimationComplete() {
-      return setIsAnimating(false);
-    },
+    onAnimationStart: () => setIsAnimating(true),
+    onAnimationComplete: () => setIsAnimating(false),
     onMouseLeave: onMouseLeave
   }, props), React.createElement("div", {
     className: "wfull p-0"
@@ -484,7 +423,7 @@ var Menu = forwardRef(function (_ref, ref) {
     actions: actions,
     actionClickDoesCloseMenu: actionClickDoesCloseMenu,
     close: close,
-    config: config != null ? config : {
+    config: config ?? {
       color: "default"
     }
   }))));
@@ -496,9 +435,8 @@ Menu.defaultProps = {
   actionClickDoesCloseMenu: true
 };
 
-var Dropdown = function Dropdown(_ref) {
-  _objectDestructuringEmpty(_ref);
-  var menu = useDynamicPanel();
+const Dropdown = ({}) => {
+  const menu = useDynamicPanel();
   return React.createElement("div", {
     className: "hydra-dropdown"
   }, React.createElement(Button, {
@@ -525,69 +463,58 @@ var Dropdown = function Dropdown(_ref) {
 };
 Dropdown.defaultProps = {};
 
-var SegmentedControl = function SegmentedControl(_ref) {
-  var segments = _ref.segments,
-    defaultSelected = _ref.defaultSelected,
-    onChange = _ref.onChange,
-    mods = _ref.mods,
-    altClass = _ref.altClass,
-    className = _ref.className;
-  var _useState = useState(defaultSelected != null ? defaultSelected : 0),
-    selected = _useState[0],
-    setSelected = _useState[1];
-  var _useState2 = useState({
-      width: "auto",
-      left: 0
-    }),
-    indicatorStyle = _useState2[0],
-    setIndicatorStyle = _useState2[1];
-  var getSegmentID = function getSegmentID(segment) {
-    return "segment-" + segment.label.replaceAll(" ", "-");
-  };
-  useLayoutEffect(function () {
-    select(segments[defaultSelected != null ? defaultSelected : 0]);
+const SegmentedControl = ({
+  segments,
+  defaultSelected,
+  onChange,
+  mods,
+  altClass,
+  className
+}) => {
+  const [selected, setSelected] = useState(defaultSelected ?? 0);
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    width: "auto",
+    left: 0
+  });
+  const getSegmentID = segment => `segment-${segment.label.replaceAll(" ", "-")}`;
+  useLayoutEffect(() => {
+    select(segments[defaultSelected ?? 0]);
   }, [defaultSelected]);
-  var select = function select(segment) {
-    var _elem$offsetWidth, _elem$offsetLeft;
+  const select = segment => {
     setSelected(segments.indexOf(segment));
-    var elem = document.getElementById(getSegmentID(segment));
+    const elem = document.getElementById(getSegmentID(segment));
     setIndicatorStyle({
-      width: (_elem$offsetWidth = elem === null || elem === void 0 ? void 0 : elem.offsetWidth) != null ? _elem$offsetWidth : "auto",
-      left: (_elem$offsetLeft = elem === null || elem === void 0 ? void 0 : elem.offsetLeft) != null ? _elem$offsetLeft : 0
+      width: (elem === null || elem === void 0 ? void 0 : elem.offsetWidth) ?? "auto",
+      left: (elem === null || elem === void 0 ? void 0 : elem.offsetLeft) ?? 0
     });
   };
-  useEffect(function () {
+  useEffect(() => {
     if (typeof onChange === "function") {
       onChange(segments[selected]);
     }
   }, [selected]);
   return React.createElement("div", {
-    className: classNames(altClass != null ? altClass : "hydra-segmented-control", className, mods),
-    onMouseLeave: function onMouseLeave() {
-      return select(segments[selected]);
-    }
+    className: classNames(altClass ?? "hydra-segmented-control", className, mods),
+    onMouseLeave: () => select(segments[selected])
   }, React.createElement("div", {
     className: "indicator",
     style: indicatorStyle
   }), React.createElement("div", {
-    className: classNames("controls", (mods === null || mods === void 0 ? void 0 : mods.includes("equal-children")) && "grid-" + segments.length)
-  }, segments.map(function (segment, index) {
-    var isSelected = selected === index;
+    className: classNames("controls", (mods === null || mods === void 0 ? void 0 : mods.includes("equal-children")) && `grid-${segments.length}`)
+  }, segments.map((segment, index) => {
+    const isSelected = selected === index;
     return React.createElement("button", {
       key: segment.label,
       id: getSegmentID(segment),
       className: classNames("segment", generateMods({
-        isSelected: isSelected
+        isSelected
       })),
-      onClick: function onClick() {
-        return select(segment);
-      },
-      onMouseOver: function onMouseOver() {
-        var _elem$offsetWidth2, _elem$offsetLeft2;
-        var elem = document.getElementById(getSegmentID(segment));
+      onClick: () => select(segment),
+      onMouseOver: () => {
+        const elem = document.getElementById(getSegmentID(segment));
         setIndicatorStyle({
-          width: (_elem$offsetWidth2 = elem === null || elem === void 0 ? void 0 : elem.offsetWidth) != null ? _elem$offsetWidth2 : "auto",
-          left: (_elem$offsetLeft2 = elem === null || elem === void 0 ? void 0 : elem.offsetLeft) != null ? _elem$offsetLeft2 : 0
+          width: (elem === null || elem === void 0 ? void 0 : elem.offsetWidth) ?? "auto",
+          left: (elem === null || elem === void 0 ? void 0 : elem.offsetLeft) ?? 0
         });
       }
     }, segment.icon && React.createElement("i", {
@@ -596,30 +523,29 @@ var SegmentedControl = function SegmentedControl(_ref) {
   })));
 };
 
-var Switch = function Switch(_ref) {
-  var className = _ref.className,
-    altClass = _ref.altClass,
-    defaultOn = _ref.defaultOn,
-    toggleControlAltClass = _ref.toggleControlAltClass,
-    toggleControlClassname = _ref.toggleControlClassname,
-    onChange = _ref.onChange,
-    label = _ref.label,
-    layout = _ref.layout,
-    bg = _ref.bg;
-  var _useState = useState(defaultOn || false),
-    on = _useState[0],
-    setOn = _useState[1];
-  var toggle = useCallback(function () {
+const Switch = ({
+  className,
+  altClass,
+  defaultOn,
+  toggleControlAltClass,
+  toggleControlClassname,
+  onChange,
+  label,
+  layout,
+  color
+}) => {
+  const [on, setOn] = useState(defaultOn || false);
+  const toggle = useCallback(() => {
     setOn(!on);
     onChange && onChange(!on);
   }, [on]);
   return React.createElement("div", {
-    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", layout, toggleControlClassname)
+    className: classNames(toggleControlAltClass ?? "hydra-toggle-control", layout, toggleControlClassname)
   }, React.createElement("button", {
     onClick: toggle,
-    className: classNames(altClass != null ? altClass : "hydra-switch", generateMods({
-      on: on,
-      bg: bg
+    className: classNames(altClass ?? "hydra-switch", generateMods({
+      on,
+      color
     }), className)
   }, React.createElement("div", {
     className: "bg"
@@ -630,7 +556,7 @@ var Switch = function Switch(_ref) {
 };
 Switch.defaultProps = {
   layout: "horizontal",
-  bg: "accent"
+  color: "accent"
 };
 
 export { Button, Checkbox, Dropdown, Menu, SegmentedControl, Switch, useDynamicPanel };
