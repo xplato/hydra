@@ -1,19 +1,10 @@
-import { colors } from './v'
+import { Layout } from './utils'
 
+// Common props
 export interface CommonProps {
 	className?: string
 	altClass?: string
 }
-
-export interface Children {
-	children?: React.ReactNode
-}
-
-export type Layout =
-	| "horizontal"
-	| "horizontal-reverse"
-	| "vertical"
-	| "vertical-reverse"
 
 export interface CommonFormProps<Value> {
 	onChange?: (currentValue: Value) => void
@@ -24,8 +15,4 @@ export interface CommonFormProps<Value> {
 export interface CommonToggleProps {
 	toggleControlAltClass?: string
 	toggleControlClassname?: string
-}
-
-export interface ColoredComponent {
-  bg?: typeof colors[keyof typeof colors]
 }

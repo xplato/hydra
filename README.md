@@ -4,7 +4,36 @@ A multi-headed component library for React.
 
 ## Documentation
 
-TBD
+### Installation
+
+```bash
+yarn add @xplato/hydra
+```
+
+or
+
+```bash
+npm install @xplato/hydra
+```
+
+### Basic Usage
+
+```jsx
+import { Button, Switch } from '@xplato/hydra';
+
+const App = () => (
+	<div>
+		<Button>Click Me</Button>
+		<Switch label={(on) => on ? "On" : "Off"} />
+	</div>
+);
+```
+
+### Component Documentation
+
+I know it's not exactly conventional, but the documentation for each component is in the component's file. You can find them easily in the `packages/react/components` directory. The `props` of every component are documented in the `[Component]Props` interface just above the component itself. They are always structured the same way and written as simply as possible. Plus, it's a good idea to see how they work under-the-hood.
+
+[**View the components**](https://github.com/xplato/hydra/tree/main/packages/react/components)
 
 ## Development Documentation
 
