@@ -414,6 +414,7 @@ const Menu = forwardRef(({
   bottom,
   left,
   size,
+  mods,
   leaveDoesCloseMenu,
   actionClickDoesCloseMenu,
   className,
@@ -449,7 +450,7 @@ const Menu = forwardRef(({
     } : transition.ui.menu,
     className: classNames("hydra-menu", className, generateMods({
       size
-    })),
+    }), mods),
     style: {
       transformOrigin: origin,
       top: getPositionValue(top),
@@ -479,7 +480,7 @@ const Menu = forwardRef(({
 Menu.defaultProps = {
   origin: "top left",
   top: "1rem",
-  size: "default",
+  size: "sm",
   leaveDoesCloseMenu: false,
   actionClickDoesCloseMenu: true
 };

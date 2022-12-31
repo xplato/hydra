@@ -458,7 +458,7 @@ var MenuActions = function MenuActions(_ref) {
   }));
 };
 
-var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "size", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
+var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "size", "mods", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
 var Menu = React.forwardRef(function (_ref, ref) {
   var isOpen = _ref.isOpen,
     close = _ref.close,
@@ -470,6 +470,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
     bottom = _ref.bottom,
     left = _ref.left,
     size = _ref.size,
+    mods = _ref.mods,
     leaveDoesCloseMenu = _ref.leaveDoesCloseMenu,
     actionClickDoesCloseMenu = _ref.actionClickDoesCloseMenu,
     className = _ref.className,
@@ -506,7 +507,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
     } : transition.ui.menu,
     className: classNames("hydra-menu", className, generateMods({
       size: size
-    })),
+    }), mods),
     style: {
       transformOrigin: origin,
       top: getPositionValue(top),
@@ -542,7 +543,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
 Menu.defaultProps = {
   origin: "top left",
   top: "1rem",
-  size: "default",
+  size: "sm",
   leaveDoesCloseMenu: false,
   actionClickDoesCloseMenu: true
 };

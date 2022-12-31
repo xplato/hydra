@@ -22,13 +22,16 @@ export interface MenuProps {
 	bottom?: number | string | boolean
 	left?: number | string | boolean
 
-	size?: "sm" | "default"
+	size?: "sm" | "md"
+	mods?: Mod[]
 
 	leaveDoesCloseMenu?: boolean
 	actionClickDoesCloseMenu?: boolean
 
 	[key: string]: any
 }
+
+type Mod = "items-bordered"
 
 export const Menu = forwardRef(
 	(
@@ -46,6 +49,7 @@ export const Menu = forwardRef(
 			left,
 
 			size,
+			mods,
 
 			leaveDoesCloseMenu,
 			actionClickDoesCloseMenu,
@@ -102,7 +106,8 @@ export const Menu = forwardRef(
 						className={classNames(
 							"hydra-menu",
 							className,
-							generateMods({ size })
+							generateMods({ size }),
+							mods
 						)}
 						style={{
 							transformOrigin: origin,
@@ -159,7 +164,7 @@ export const Menu = forwardRef(
 Menu.defaultProps = {
 	origin: "top left",
 	top: "1rem",
-	size: "default",
+	size: "sm",
 
 	leaveDoesCloseMenu: false,
 	actionClickDoesCloseMenu: true,

@@ -18,6 +18,43 @@ import {
 	Switch,
 } from "@xplato/hydra"
 
+const dropdownActions = [
+	{
+		label: "Action 1",
+	},
+	{
+		label: "Action 2",
+	},
+	{
+		label: "Action 3",
+		submenu: [
+			{
+				label: "Action 1",
+			},
+			{
+				label: "Action 2",
+			},
+			{
+				label: "Action 3",
+				submenu: [
+					{
+						label: "Action 1",
+					},
+					{
+						label: "Action 2",
+					},
+					{
+						label: "Action 3",
+					},
+				],
+			},
+		],
+	},
+	{
+		label: "Action 4",
+	},
+]
+
 const Section = ({ children }: any) => (
 	<div className="wfull VStack mb-32">{children}</div>
 )
@@ -198,44 +235,19 @@ const Home = () => {
 						<Block>
 							<Caption>Dropdown menu (small)</Caption>
 							<Dropdown
-								actions={[
-									{
-										label: "Action 1",
-									},
-									{
-										label: "Action 2",
-									},
-									{
-										label: "Action 3",
-										submenu: [
-											{
-												label: "Action 1",
-											},
-											{
-												label: "Action 2",
-											},
-											{
-												label: "Action 3",
-												submenu: [
-													{
-														label: "Action 1",
-													},
-													{
-														label: "Action 2",
-													},
-													{
-														label: "Action 3",
-													},
-												],
-											},
-										],
-									},
-									{
-										label: "Action 4",
-									},
-								]}
+								actions={dropdownActions}
 								menuProps={{
 									size: "sm",
+								}}
+							/>
+						</Block>
+
+						<Block>
+							<Caption>Dropdown menu (items-bordered)</Caption>
+							<Dropdown
+								actions={dropdownActions}
+								menuProps={{
+									mods: ["items-bordered"],
 								}}
 							/>
 						</Block>

@@ -109,7 +109,7 @@ $size: 14rem;
 		}
 	}
 
-	&.size-default .menu-action {
+	&.size-md .menu-action {
 		padding: 0.6rem 0.7rem;
 
 		& span {
@@ -125,6 +125,32 @@ $size: 14rem;
 
 		html.dark & {
 			background-color: var(--bg-300);
+		}
+	}
+
+	// Mods
+	&.items-bordered {
+		& .action-wrap {
+			padding: 0;
+		}
+
+		& .menu-action {
+			border-radius: 0;
+			padding: 0.6rem 1rem;
+		}
+
+		& .action-wrap:not(:last-of-type) {
+			& > .menu-action {
+				border-bottom: 1px solid var(--bg-200);
+			}
+		}
+
+		& .wrapper:not(:last-of-type) > .action-wrap > .menu-action {
+			border-bottom: 1px solid var(--bg-200);
+		}
+
+		& .wrapper:last-of-type > .action-wrap > .menu-action {
+			border-bottom: 0;
 		}
 	}
 }
