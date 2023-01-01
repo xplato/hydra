@@ -8,6 +8,7 @@ import MenuAction from "./MenuAction"
 import { variants } from "../../data"
 
 import { Action, ActionConfig } from "./types"
+import { omitFields } from "../../logic"
 
 interface Props {
 	actionProps: ActionProps
@@ -25,9 +26,7 @@ const SubmenuItem = ({ actionProps, config }: Props) => {
 	const open = () => setIsOpen(true)
 	const close = () => setIsOpen(false)
 
-	const props: Omit<ActionProps, "onClick"> = Object.assign({}, actionProps, {
-		onClick: undefined,
-	})
+	const props = omitFields(actionProps, ["onClick"])
 
 	return (
 		<div
@@ -43,6 +42,10 @@ const SubmenuItem = ({ actionProps, config }: Props) => {
 				iconRight={<ChevronRightIcon />}
 				onClick={ev => {
 					ev?.preventDefault()
+
+					if (typeof actionProps.onClick === "function") {
+						actionProps.onClick(ev)
+					}
 				}}
 				{...props}
 			/>

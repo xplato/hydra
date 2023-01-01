@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react'
+
 import { Color } from '../../types'
 
 export interface Action extends ActionConfig {

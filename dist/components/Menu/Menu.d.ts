@@ -11,11 +11,9 @@ export interface MenuProps {
     bottom?: number | string | boolean;
     left?: number | string | boolean;
     size?: "sm" | "md";
-    mods?: Mod[];
+    itemsBordered?: boolean;
     leaveDoesCloseMenu?: boolean;
     actionClickDoesCloseMenu?: boolean;
     [key: string]: any;
 }
-declare type Mod = "items-bordered";
 export declare const Menu: React.ForwardRefExoticComponent<Pick<MenuProps, React.ReactText> & React.RefAttributes<HTMLDivElement>>;
-export {};

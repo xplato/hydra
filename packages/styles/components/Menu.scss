@@ -102,7 +102,7 @@ $size: 14rem;
 	}
 
 	&.size-sm .menu-action {
-		padding: 0.5rem 0.5rem;
+		padding: 0.6rem;
 
 		& span {
 			font-size: 0.9rem;
@@ -130,6 +130,10 @@ $size: 14rem;
 
 	// Mods
 	&.items-bordered {
+		&, & .hydra-submenu {
+			padding: 0;
+		}
+
 		& .action-wrap {
 			padding: 0;
 		}

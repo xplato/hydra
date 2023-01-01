@@ -6,13 +6,12 @@ import { generateMods } from "../../logic"
 import { Action, ActionConfig } from "./types"
 
 interface Props extends Action {
-	click?: MouseEventHandler
 	submenuOpen?: boolean
 	config: ActionConfig
 }
 
 const MenuAction = ({
-	click,
+	onClick: _onClick,
 	label,
 	iconLeft,
 	iconRight,
@@ -23,8 +22,8 @@ const MenuAction = ({
 	const ref = useRef<HTMLButtonElement>(null)
 
 	const onClick: MouseEventHandler = ev => {
-		if (typeof click === "function") {
-			click(ev)
+		if (typeof _onClick === "function") {
+			_onClick(ev)
 		}
 	}
 

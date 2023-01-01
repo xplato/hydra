@@ -247,7 +247,7 @@ const Home = () => {
 							<Dropdown
 								actions={dropdownActions}
 								menuProps={{
-									mods: ["items-bordered"],
+									itemsBordered: true,
 								}}
 							/>
 						</Block>
@@ -376,7 +376,6 @@ const Home = () => {
 						<Block>
 							<Caption>Icons only</Caption>
 							<SegmentedControl
-								mods={["icons-only"]}
 								segments={[
 									{
 										label: "light",
@@ -395,6 +394,7 @@ const Home = () => {
 									console.log(segment)
 									setTheme(segment.label)
 								}}
+								iconsOnly
 							/>
 						</Block>
 					</Row>

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react"
 import classNames from "classnames"
 
-import { generateMods } from "../logic"
+import { capitalize, generateMods } from "../logic"
 
 export interface SegmentedControlProps {
 	segments: Segment[]
 	defaultSelected?: number
 	onChange?: (segment: Segment) => void
-	mods?: Mod[]
+
 	altClass?: string
 	className?: string
-}
 
-type Mod = "icons-only" | "equal-children"
+	// Mods
+	iconsOnly?: boolean
+}
 
 export interface Segment {
 	label: string
@@ -23,9 +24,11 @@ export const SegmentedControl = ({
 	segments,
 	defaultSelected,
 	onChange,
-	mods,
+
 	altClass,
 	className,
+
+	iconsOnly,
 }: SegmentedControlProps) => {
 	const [selected, setSelected] = useState<number | undefined>(undefined)
 
@@ -65,19 +68,13 @@ export const SegmentedControl = ({
 			className={classNames(
 				altClass ?? "hydra-segmented-control",
 				className,
-				mods
+				generateMods({ iconsOnly })
 			)}
 			onMouseLeave={() => select(segments[selected || 0])}
 		>
 			<div className="indicator" style={indicatorStyle}></div>
 
-			<div
-				className={classNames(
-					"controls",
-					mods?.includes("equal-children") &&
-						`grid-${segments.length}`
-				)}
-			>
+			<div className={classNames("controls")}>
 				{segments.map((segment, index) => {
 					const isSelected = selected === index
 
@@ -85,6 +82,7 @@ export const SegmentedControl = ({
 						<button
 							key={segment.label}
 							id={getSegmentID(segment)}
+							title={capitalize(segment.label)}
 							className={classNames(
 								"segment",
 								generateMods({ isSelected })

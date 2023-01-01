@@ -54,6 +54,9 @@ const kebabize = str => {
     return letter.toUpperCase() === letter ? `${index !== 0 ? "-" : ""}${letter.toLowerCase()}` : letter;
   }).join("");
 };
+const capitalize = word => {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
 
 const generateMods = mods => {
   const keys = Object.keys(mods);
@@ -70,6 +73,12 @@ const generateMods = mods => {
     }
     return `${kebabize(key)}-${typeof value === "number" ? value : kebabize(value)}`;
   });
+};
+
+const omitFields = (object, fields) => {
+  return Object.assign({}, object, Object.assign({}, ...fields.map(key => ({
+    [key]: undefined
+  }))));
 };
 
 const Button = ({
@@ -248,7 +257,7 @@ Checkbox.defaultProps = {
 };
 
 const MenuAction = ({
-  click,
+  onClick: _onClick,
   label,
   iconLeft,
   iconRight,
@@ -258,8 +267,8 @@ const MenuAction = ({
 }) => {
   const ref = useRef(null);
   const onClick = ev => {
-    if (typeof click === "function") {
-      click(ev);
+    if (typeof _onClick === "function") {
+      _onClick(ev);
     }
   };
   return React__default.createElement("div", {
@@ -323,9 +332,7 @@ const SubmenuItem = ({
   const shouldReduceMotion = useReducedMotion();
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
-  const props = Object.assign({}, actionProps, {
-    onClick: undefined
-  });
+  const props = omitFields(actionProps, ["onClick"]);
   return React__default.createElement("div", {
     className: "wrapper",
     onFocus: open,
@@ -338,6 +345,9 @@ const SubmenuItem = ({
     iconRight: React__default.createElement(ForwardRef, null),
     onClick: ev => {
       ev === null || ev === void 0 ? void 0 : ev.preventDefault();
+      if (typeof actionProps.onClick === "function") {
+        actionProps.onClick(ev);
+      }
     }
   }, props)), React__default.createElement(AnimatePresence, null, isOpen && React__default.createElement(motion.div, {
     variants: variants.fade.in.right,
@@ -384,10 +394,13 @@ const MenuActions = ({
         className: "separator"
       });
     }
-    const actionProps = {
+    const _actionProps = omitFields({
       index: index,
-      click: onClick,
       ...action
+    }, ["onClick"]);
+    const actionProps = {
+      ..._actionProps,
+      onClick: onClick
     };
     if (action.submenu) {
       return React__default.createElement(SubmenuItem, {
@@ -414,7 +427,7 @@ const Menu = forwardRef(({
   bottom,
   left,
   size,
-  mods,
+  itemsBordered,
   leaveDoesCloseMenu,
   actionClickDoesCloseMenu,
   className,
@@ -449,8 +462,9 @@ const Menu = forwardRef(({
       duration: 0
     } : transition.ui.menu,
     className: classNames("hydra-menu", className, generateMods({
-      size
-    }), mods),
+      size,
+      itemsBordered
+    })),
     style: {
       transformOrigin: origin,
       top: getPositionValue(top),
@@ -505,9 +519,9 @@ const SegmentedControl = ({
   segments,
   defaultSelected,
   onChange,
-  mods,
   altClass,
-  className
+  className,
+  iconsOnly
 }) => {
   const [selected, setSelected] = useState(undefined);
   const [indicatorStyle, setIndicatorStyle] = useState({
@@ -534,18 +548,21 @@ const SegmentedControl = ({
     }
   }, [selected]);
   return React__default.createElement("div", {
-    className: classNames(altClass ?? "hydra-segmented-control", className, mods),
+    className: classNames(altClass ?? "hydra-segmented-control", className, generateMods({
+      iconsOnly
+    })),
     onMouseLeave: () => select(segments[selected || 0])
   }, React__default.createElement("div", {
     className: "indicator",
     style: indicatorStyle
   }), React__default.createElement("div", {
-    className: classNames("controls", (mods === null || mods === void 0 ? void 0 : mods.includes("equal-children")) && `grid-${segments.length}`)
+    className: classNames("controls")
   }, segments.map((segment, index) => {
     const isSelected = selected === index;
     return React__default.createElement("button", {
       key: segment.label,
       id: getSegmentID(segment),
+      title: capitalize(segment.label),
       className: classNames("segment", generateMods({
         isSelected
       })),

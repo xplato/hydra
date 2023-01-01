@@ -88,6 +88,9 @@ var kebabize = function kebabize(str) {
     return letter.toUpperCase() === letter ? "" + (index !== 0 ? "-" : "") + letter.toLowerCase() : letter;
   }).join("");
 };
+var capitalize = function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
 
 var generateMods = function generateMods(mods) {
   var keys = Object.keys(mods);
@@ -104,6 +107,13 @@ var generateMods = function generateMods(mods) {
     }
     return kebabize(key) + "-" + (typeof value === "number" ? value : kebabize(value));
   });
+};
+
+var omitFields = function omitFields(object, fields) {
+  return Object.assign({}, object, Object.assign.apply(Object, [{}].concat(fields.map(function (key) {
+    var _ref;
+    return _ref = {}, _ref[key] = undefined, _ref;
+  }))));
 };
 
 var _excluded = ["altClass", "size", "color", "onClick", "className", "children"];
@@ -300,7 +310,7 @@ Checkbox.defaultProps = {
 };
 
 var MenuAction = function MenuAction(_ref) {
-  var click = _ref.click,
+  var _onClick = _ref.onClick,
     label = _ref.label,
     iconLeft = _ref.iconLeft,
     iconRight = _ref.iconRight,
@@ -309,8 +319,8 @@ var MenuAction = function MenuAction(_ref) {
     config = _ref.config;
   var ref = React.useRef(null);
   var onClick = function onClick(ev) {
-    if (typeof click === "function") {
-      click(ev);
+    if (typeof _onClick === "function") {
+      _onClick(ev);
     }
   };
   return React__default.createElement("div", {
@@ -380,9 +390,7 @@ var SubmenuItem = function SubmenuItem(_ref) {
   var close = function close() {
     return setIsOpen(false);
   };
-  var props = Object.assign({}, actionProps, {
-    onClick: undefined
-  });
+  var props = omitFields(actionProps, ["onClick"]);
   return React__default.createElement("div", {
     className: "wrapper",
     onFocus: open,
@@ -395,6 +403,9 @@ var SubmenuItem = function SubmenuItem(_ref) {
     iconRight: React__default.createElement(ForwardRef, null),
     onClick: function onClick(ev) {
       ev === null || ev === void 0 ? void 0 : ev.preventDefault();
+      if (typeof actionProps.onClick === "function") {
+        actionProps.onClick(ev);
+      }
     }
   }, props)), React__default.createElement(framerMotion.AnimatePresence, null, isOpen && React__default.createElement(framerMotion.motion.div, {
     variants: variants.fade["in"].right,
@@ -440,10 +451,12 @@ var MenuActions = function MenuActions(_ref) {
         className: "separator"
       });
     }
-    var actionProps = _extends({
-      index: index,
-      click: onClick
-    }, action);
+    var _actionProps = omitFields(_extends({
+      index: index
+    }, action), ["onClick"]);
+    var actionProps = _extends({}, _actionProps, {
+      onClick: onClick
+    });
     if (action.submenu) {
       return React__default.createElement(SubmenuItem, {
         key: action.label,
@@ -458,7 +471,7 @@ var MenuActions = function MenuActions(_ref) {
   }));
 };
 
-var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "size", "mods", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
+var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "size", "itemsBordered", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
 var Menu = React.forwardRef(function (_ref, ref) {
   var isOpen = _ref.isOpen,
     close = _ref.close,
@@ -470,7 +483,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
     bottom = _ref.bottom,
     left = _ref.left,
     size = _ref.size,
-    mods = _ref.mods,
+    itemsBordered = _ref.itemsBordered,
     leaveDoesCloseMenu = _ref.leaveDoesCloseMenu,
     actionClickDoesCloseMenu = _ref.actionClickDoesCloseMenu,
     className = _ref.className,
@@ -506,8 +519,9 @@ var Menu = React.forwardRef(function (_ref, ref) {
       duration: 0
     } : transition.ui.menu,
     className: classNames("hydra-menu", className, generateMods({
-      size: size
-    }), mods),
+      size: size,
+      itemsBordered: itemsBordered
+    })),
     style: {
       transformOrigin: origin,
       top: getPositionValue(top),
@@ -567,9 +581,9 @@ var SegmentedControl = function SegmentedControl(_ref) {
   var segments = _ref.segments,
     defaultSelected = _ref.defaultSelected,
     onChange = _ref.onChange,
-    mods = _ref.mods,
     altClass = _ref.altClass,
-    className = _ref.className;
+    className = _ref.className,
+    iconsOnly = _ref.iconsOnly;
   var _useState = React.useState(undefined),
     selected = _useState[0],
     setSelected = _useState[1];
@@ -602,7 +616,9 @@ var SegmentedControl = function SegmentedControl(_ref) {
     }
   }, [selected]);
   return React__default.createElement("div", {
-    className: classNames(altClass != null ? altClass : "hydra-segmented-control", className, mods),
+    className: classNames(altClass != null ? altClass : "hydra-segmented-control", className, generateMods({
+      iconsOnly: iconsOnly
+    })),
     onMouseLeave: function onMouseLeave() {
       return select(segments[selected || 0]);
     }
@@ -610,12 +626,13 @@ var SegmentedControl = function SegmentedControl(_ref) {
     className: "indicator",
     style: indicatorStyle
   }), React__default.createElement("div", {
-    className: classNames("controls", (mods === null || mods === void 0 ? void 0 : mods.includes("equal-children")) && "grid-" + segments.length)
+    className: classNames("controls")
   }, segments.map(function (segment, index) {
     var isSelected = selected === index;
     return React__default.createElement("button", {
       key: segment.label,
       id: getSegmentID(segment),
+      title: capitalize(segment.label),
       className: classNames("segment", generateMods({
         isSelected: isSelected
       })),
