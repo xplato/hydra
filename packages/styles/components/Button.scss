@@ -104,4 +104,12 @@ $drop-shadow-hover-size: 2px;
 		padding: 0.3rem 0.5rem;
 		font-size: 0.8125rem;
 	}
+
+	// Variants
+	// TODO
+
+	// Mods
+	&.rounded {
+		border-radius: 90px;
+	}
 }

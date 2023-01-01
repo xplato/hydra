@@ -3,20 +3,25 @@ import classNames from "classnames"
 
 import { generateMods } from "../logic"
 
-import { Color } from '../types'
+import { Color } from "../types"
 
 // @ts-ignore
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+	variant?: "default" | "secondary"
 	color: Color
-	altClass?: string
 	size?: "sm" | "default" | "lg"
+	rounded?: boolean
+	altClass?: string
+	className?: string
 }
 
 export const Button = ({
-	altClass,
-	size,
+	variant,
 	color,
+	size,
+	rounded,
 	onClick: _onClick,
+	altClass,
 	className,
 	children,
 	...props
@@ -29,7 +34,7 @@ export const Button = ({
 		<button
 			className={classNames(
 				altClass ?? "hydra-button",
-				generateMods({ size, color }),
+				generateMods({ variant, color, size, rounded }),
 				className
 			)}
 			onClick={onClick}

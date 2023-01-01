@@ -1,7 +1,7 @@
 // Shadows, gradients, and other effects
 
 $base-shadow: 0 2px 4px 0 rgb(0 0 82 / 15%);
-$focus-ring: 0 0 0 3px var(--ui-3);
+$focus-ring: 0 0 0 3px var(--bg-300);
 
 @mixin interactive-shadow() {
 	box-shadow: $base-shadow;
@@ -11,10 +11,10 @@ $focus-ring: 0 0 0 3px var(--ui-3);
 	}
 
 	html.dark & {
-		box-shadow: 0 0 0 1px var(--ui-2);
+		box-shadow: 0 0 0 1px var(--bg-200);
 
 		&:focus {
-			box-shadow: 0 0 0 1px var(--ui-3);
+			box-shadow: 0 0 0 1px var(--bg-300);
 		}
 	}
 }
@@ -40,8 +40,11 @@ $focus-ring: 0 0 0 3px var(--ui-3);
 	}
 }
 
-
 @mixin stone-bg($shade) {
 	background-color: var(--#{$shade}-600) !important;
 	color: white;
+}
+
+@mixin shadow() {
+	box-shadow: 0 2px 2px 0 var(--bg-200), 0 0 0 1px var(--bg-200);
 }

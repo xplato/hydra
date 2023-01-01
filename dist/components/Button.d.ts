@@ -1,12 +1,15 @@
 import React from "react";
-import { Color } from '../types';
+import { Color } from "../types";
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+    variant?: "default" | "secondary";
     color: Color;
-    altClass?: string;
     size?: "sm" | "default" | "lg";
+    rounded?: boolean;
+    altClass?: string;
+    className?: string;
 }
 export declare const Button: {
-    ({ altClass, size, color, onClick: _onClick, className, children, ...props }: ButtonProps): JSX.Element;
+    ({ variant, color, size, rounded, onClick: _onClick, altClass, className, children, ...props }: ButtonProps): JSX.Element;
     defaultProps: {
         size: string;
         color: string;

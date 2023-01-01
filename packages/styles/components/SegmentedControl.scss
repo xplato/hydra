@@ -43,6 +43,32 @@
 		flex-direction: row;
 	}
 
+	& button {
+		padding: 0.35rem 0.65rem;
+		background-color: transparent;
+		border: 0.5px solid transparent;
+		border-radius: 0.5rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row;
+		position: relative;
+		z-index: 2;
+		transition: var(--d-m-2) var(--e-s);
+
+		&:active {
+			opacity: 0.7;
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&:focus-visible {
+			box-shadow: 0 0 0 1px var(--bg-900);
+		}
+	}
+
 	&.icons-only {
 		padding-right: 0.125rem;
 
@@ -68,29 +94,11 @@
 		}
 	}
 
-	& button {
-		padding: 0.35rem 0.65rem;
-		background-color: transparent;
-		border: 0.5px solid transparent;
-		border-radius: 0.5rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: row;
-		position: relative;
-		z-index: 2;
-		transition: var(--d-m-2) var(--e-s);
+	&.equal-width {
+		width: 100%;
 
-		&:active {
-			opacity: 0.7;
-		}
-
-		&:focus {
-			outline: none;
-		}
-
-		&:focus-visible {
-			box-shadow: 0 0 0 1px black;
+		& .controls {
+			display: grid;
 		}
 	}
 }

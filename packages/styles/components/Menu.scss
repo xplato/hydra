@@ -163,3 +163,8 @@ $size: 14rem;
 	top: calc(0.5rem * -1);
 	left: $size;
 }
+
+.hydra-menu.items-bordered .hydra-submenu {
+	top: 0;
+	left: 100%;
+}

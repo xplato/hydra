@@ -101,6 +101,9 @@ const Home = () => {
 		return index === 0 ? "50" : `${index}00`
 	}
 
+	// @ts-ignore
+	const items = [...Array(10).keys()]
+
 	return (
 		<section className="wfull mnh-screen py-40">
 			<div className="container">
@@ -112,7 +115,7 @@ const Home = () => {
 						<Caption>({accent})</Caption>
 					</div>
 					<div className="wfull grid grid-10">
-						{[...Array(10).keys()].map(index => (
+						{items.map(index => (
 							<div key={index} className="grid-block">
 								<div
 									className={`wfull flex-c h-28 bg-accent-${getIndexWeight(
@@ -136,7 +139,7 @@ const Home = () => {
 						<Caption>({shade})</Caption>
 					</div>
 					<div className="wfull grid grid-10">
-						{[...Array(10).keys()].map(index => (
+						{items.map(index => (
 							<div key={index} className="grid-block">
 								<div
 									className={`wfull h-28 bg-${getIndexWeight(
@@ -160,6 +163,12 @@ const Home = () => {
 						<Block>
 							<Caption>Default</Caption>
 							<Button>Default Button</Button>
+						</Block>
+						<Block>
+							<Caption>Secondary</Caption>
+							<Button variant="secondary">
+								Secondary Button
+							</Button>
 						</Block>
 						<Block>
 							<Caption>Colored</Caption>
