@@ -1,4 +1,7 @@
+import { HydraProvider } from "@xplato/hydra"
 import { ThemeProvider } from "next-themes"
+
+import { hydraConfig } from '../logic/config'
 
 import type { AppProps } from "next/app"
 
@@ -8,9 +11,11 @@ import "@xplato/hydra/dist/hydra.css"
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
-		<ThemeProvider attribute="class" defaultTheme="system">
-			<Component {...pageProps} />
-		</ThemeProvider>
+		<HydraProvider config={hydraConfig}>
+			<ThemeProvider attribute="class" defaultTheme="system">
+				<Component {...pageProps} />
+			</ThemeProvider>
+		</HydraProvider>
 	)
 }
 

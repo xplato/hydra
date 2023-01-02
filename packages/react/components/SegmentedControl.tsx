@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import classNames from "classnames"
 
+import { useDefaults } from "../hooks/useDefaults"
+
 import { capitalize, generateMods } from "../logic"
 
 export interface SegmentedControlProps {
@@ -30,6 +32,7 @@ export const SegmentedControl = ({
 
 	iconsOnly,
 }: SegmentedControlProps) => {
+	const defaults = useDefaults("SegmentedControl")
 	const [selected, setSelected] = useState<number | undefined>(undefined)
 
 	const [indicatorStyle, setIndicatorStyle] = useState<React.CSSProperties>({
@@ -68,7 +71,7 @@ export const SegmentedControl = ({
 			className={classNames(
 				altClass ?? "hydra-segmented-control",
 				className,
-				generateMods({ iconsOnly })
+				generateMods({ iconsOnly: iconsOnly ?? defaults.iconsOnly })
 			)}
 			onMouseLeave={() => select(segments[selected || 0])}
 		>

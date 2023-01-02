@@ -1,6 +1,8 @@
 import React, { MouseEventHandler } from "react"
 import classNames from "classnames"
 
+import { useDefaults } from '../hooks/useDefaults'
+
 import { generateMods } from "../logic"
 
 import { Color } from "../types"
@@ -9,7 +11,7 @@ import { Color } from "../types"
 // @ts-ignore
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 	variant?: "default" | "secondary"
-	color: Color
+	color?: Color
 	size?: "sm" | "md" | "lg"
 	rounded?: boolean
 	altClass?: string
@@ -27,15 +29,23 @@ export const Button = ({
 	children,
 	...props
 }: ButtonProps) => {
+	const defaults = useDefaults("Button")
+
 	const onClick: MouseEventHandler<HTMLButtonElement> = ev => {
 		if (_onClick) _onClick(ev)
 	}
 
 	return (
+		// @ts-ignore - color prop
 		<button
 			className={classNames(
 				altClass ?? "hydra-button",
-				generateMods({ variant, color, size, rounded }),
+				generateMods({
+					variant,
+					color: color ?? defaults.color,
+					size: size ?? defaults.size,
+					rounded,
+				}),
 				className
 			)}
 			onClick={onClick}
@@ -44,9 +54,4 @@ export const Button = ({
 			{children}
 		</button>
 	)
-}
-
-Button.defaultProps = {
-	size: "md",
-	color: "accent",
 }

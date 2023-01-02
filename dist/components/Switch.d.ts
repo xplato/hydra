@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { Color, Layout } from '../types';
+import { Color, Layout } from "../types";
 export interface SwitchProps {
     label?: string | ((currentValue: boolean) => string);
     onChange?: (currentValue: boolean) => void;

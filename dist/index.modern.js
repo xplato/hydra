@@ -1,7 +1,57 @@
-import React, { useRef, useState, useEffect, useCallback, forwardRef, useMemo } from 'react';
+import React, { createContext, useContext, useRef, useState, useEffect, useCallback, forwardRef, useMemo } from 'react';
 import classNames from 'classnames';
 import { useReducedMotion, AnimatePresence, motion } from 'framer-motion';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
+
+const defaultConfig = {
+  defaultProps: {
+    Button: {
+      variant: "default",
+      size: "md",
+      color: "accent"
+    },
+    Checkbox: {
+      layout: "horizontal",
+      color: "accent"
+    },
+    Dropdown: {},
+    Menu: {
+      actionSize: "md",
+      itemsBordered: false,
+      leaveDoesCloseMenu: true,
+      actionClickDoesCloseMenu: true
+    },
+    SegmentedControl: {
+      iconsOnly: false
+    },
+    Select: {},
+    Switch: {
+      color: "accent",
+      layout: "horizontal"
+    }
+  }
+};
+
+const HydraContext = createContext({
+  ...defaultConfig
+});
+const HydraProvider = ({
+  config: _config = defaultConfig,
+  children
+}) => {
+  const value = {
+    ...defaultConfig,
+    ..._config
+  };
+  return React.createElement(HydraContext.Provider, {
+    value: value
+  }, children);
+};
+
+const useHydra = () => {
+  const context = useContext(HydraContext);
+  return context;
+};
 
 const useDynamicPanel = () => {
   const ref = useRef(null);
@@ -45,6 +95,13 @@ const useDynamicPanel = () => {
     close,
     toggle
   };
+};
+
+const useDefaults = key => {
+  const {
+    defaultProps
+  } = useHydra();
+  return defaultProps[key] || defaultConfig.defaultProps[key];
 };
 
 const kebabize = str => {
@@ -93,22 +150,19 @@ const Button = ({
   children,
   ...props
 }) => {
+  const defaults = useDefaults("Button");
   const onClick = ev => {
     if (_onClick) _onClick(ev);
   };
   return React.createElement("button", Object.assign({
     className: classNames(altClass ?? "hydra-button", generateMods({
       variant,
-      color,
-      size,
+      color: color ?? defaults.color,
+      size: size ?? defaults.size,
       rounded
     }), className),
     onClick: onClick
   }, props), children);
-};
-Button.defaultProps = {
-  size: "md",
-  color: "accent"
 };
 
 const icons = {
@@ -237,17 +291,18 @@ const Checkbox = ({
   toggleControlAltClass,
   toggleControlClassname
 }) => {
+  const defaults = useDefaults("Checkbox");
   const [checked, setChecked] = useState(defaultChecked || false);
   const toggle = useCallback(() => {
     setChecked(!checked);
     onChange && onChange(!checked);
   }, [checked]);
   return React.createElement("div", {
-    className: classNames(toggleControlAltClass ?? "hydra-toggle-control", toggleControlClassname, layout)
+    className: classNames(toggleControlAltClass ?? "hydra-toggle-control", toggleControlClassname, layout ?? defaults.layout)
   }, React.createElement("button", {
     onClick: toggle,
     className: classNames(altClass ?? "hydra-checkbox", generateMods({
-      color
+      color: color ?? defaults.color
     }), className),
     "data-checked": checked
   }, checked && React.createElement("i", {
@@ -256,9 +311,6 @@ const Checkbox = ({
     className: "label-wrap",
     onClick: toggle
   }, React.createElement("label", null, typeof label === "function" ? label(checked) : label)));
-};
-Checkbox.defaultProps = {
-  layout: "horizontal"
 };
 
 const MenuAction = ({
@@ -408,13 +460,14 @@ const Menu = forwardRef(({
   right,
   bottom,
   left,
-  size,
+  actionSize,
   itemsBordered,
   leaveDoesCloseMenu,
   actionClickDoesCloseMenu,
   className,
   ...props
 }, ref) => {
+  const defaults = useDefaults("Menu");
   const [isAnimating, setIsAnimating] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const getPositionValue = value => {
@@ -430,7 +483,7 @@ const Menu = forwardRef(({
     return value;
   };
   const onMouseLeave = () => {
-    if (leaveDoesCloseMenu) {
+    if (leaveDoesCloseMenu ?? defaults.leaveDoesCloseMenu) {
       close();
     }
   };
@@ -444,7 +497,7 @@ const Menu = forwardRef(({
       duration: 0
     } : transition.ui.menu,
     className: classNames("hydra-menu", className, generateMods({
-      size,
+      actionSize: actionSize ?? defaults.actionSize,
       itemsBordered
     })),
     style: {
@@ -466,7 +519,7 @@ const Menu = forwardRef(({
     className: "wfull p-0"
   }, React.createElement(MenuActions, {
     actions: actions,
-    actionClickDoesCloseMenu: actionClickDoesCloseMenu,
+    actionClickDoesCloseMenu: actionClickDoesCloseMenu ?? defaults.actionClickDoesCloseMenu,
     close: close,
     config: config ?? {
       color: "default"
@@ -476,7 +529,7 @@ const Menu = forwardRef(({
 Menu.defaultProps = {
   origin: "top left",
   top: "1rem",
-  size: "sm",
+  actionSize: "sm",
   leaveDoesCloseMenu: false,
   actionClickDoesCloseMenu: true
 };
@@ -496,7 +549,6 @@ const Dropdown = ({
     actions: actions
   }, menu, menuProps)));
 };
-Dropdown.defaultProps = {};
 
 const SegmentedControl = ({
   segments,
@@ -506,6 +558,7 @@ const SegmentedControl = ({
   className,
   iconsOnly
 }) => {
+  const defaults = useDefaults("SegmentedControl");
   const [selected, setSelected] = useState(undefined);
   const [indicatorStyle, setIndicatorStyle] = useState({
     width: "auto",
@@ -532,7 +585,7 @@ const SegmentedControl = ({
   }, [selected]);
   return React.createElement("div", {
     className: classNames(altClass ?? "hydra-segmented-control", className, generateMods({
-      iconsOnly
+      iconsOnly: iconsOnly ?? defaults.iconsOnly
     })),
     onMouseLeave: () => select(segments[selected || 0])
   }, React.createElement("div", {
@@ -613,18 +666,19 @@ const Switch = ({
   layout,
   color
 }) => {
+  const defaults = useDefaults("Switch");
   const [on, setOn] = useState(defaultOn || false);
   const toggle = useCallback(() => {
     setOn(!on);
     onChange && onChange(!on);
   }, [on]);
   return React.createElement("div", {
-    className: classNames(toggleControlAltClass ?? "hydra-toggle-control", layout, toggleControlClassname)
+    className: classNames(toggleControlAltClass ?? "hydra-toggle-control", layout ?? defaults.layout, toggleControlClassname)
   }, React.createElement("button", {
     onClick: toggle,
     className: classNames(altClass ?? "hydra-switch", generateMods({
       on,
-      color
+      color: color ?? defaults.color
     }), className)
   }, React.createElement("div", {
     className: "bg"
@@ -638,5 +692,5 @@ Switch.defaultProps = {
   color: "accent"
 };
 
-export { Button, Checkbox, Dropdown, Menu, SegmentedControl, Select, Switch, useDynamicPanel };
+export { Button, Checkbox, Dropdown, HydraContext, HydraProvider, Menu, SegmentedControl, Select, Switch, defaultConfig, useDynamicPanel, useHydra };
 //# sourceMappingURL=index.modern.js.map

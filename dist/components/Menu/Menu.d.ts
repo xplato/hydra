@@ -10,7 +10,7 @@ export interface MenuProps {
     right?: number | string | boolean;
     bottom?: number | string | boolean;
     left?: number | string | boolean;
-    size?: "sm" | "md";
+    actionSize?: "sm" | "md";
     itemsBordered?: boolean;
     leaveDoesCloseMenu?: boolean;
     actionClickDoesCloseMenu?: boolean;

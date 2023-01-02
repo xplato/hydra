@@ -6,6 +6,78 @@ var classNames = _interopDefault(require('classnames'));
 var framerMotion = require('framer-motion');
 var solid = require('@heroicons/react/20/solid');
 
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+
+var defaultConfig = {
+  defaultProps: {
+    Button: {
+      variant: "default",
+      size: "md",
+      color: "accent"
+    },
+    Checkbox: {
+      layout: "horizontal",
+      color: "accent"
+    },
+    Dropdown: {},
+    Menu: {
+      actionSize: "md",
+      itemsBordered: false,
+      leaveDoesCloseMenu: true,
+      actionClickDoesCloseMenu: true
+    },
+    SegmentedControl: {
+      iconsOnly: false
+    },
+    Select: {},
+    Switch: {
+      color: "accent",
+      layout: "horizontal"
+    }
+  }
+};
+
+var HydraContext = React.createContext(_extends({}, defaultConfig));
+var HydraProvider = function HydraProvider(_ref) {
+  var _ref$config = _ref.config,
+    config = _ref$config === void 0 ? defaultConfig : _ref$config,
+    children = _ref.children;
+  var value = _extends({}, defaultConfig, config);
+  return React__default.createElement(HydraContext.Provider, {
+    value: value
+  }, children);
+};
+
+var useHydra = function useHydra() {
+  var context = React.useContext(HydraContext);
+  return context;
+};
+
 var useDynamicPanel = function useDynamicPanel() {
   var ref = React.useRef(null);
   var _useState = React.useState(false),
@@ -54,32 +126,11 @@ var useDynamicPanel = function useDynamicPanel() {
   };
 };
 
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-  return target;
-}
+var useDefaults = function useDefaults(key) {
+  var _useHydra = useHydra(),
+    defaultProps = _useHydra.defaultProps;
+  return defaultProps[key] || defaultConfig.defaultProps[key];
+};
 
 var kebabize = function kebabize(str) {
   return str.replaceAll(" ", "-").split("").map(function (letter, index) {
@@ -128,22 +179,19 @@ var Button = function Button(_ref) {
     className = _ref.className,
     children = _ref.children,
     props = _objectWithoutPropertiesLoose(_ref, _excluded);
+  var defaults = useDefaults("Button");
   var onClick = function onClick(ev) {
     if (_onClick) _onClick(ev);
   };
   return React__default.createElement("button", Object.assign({
     className: classNames(altClass != null ? altClass : "hydra-button", generateMods({
       variant: variant,
-      color: color,
-      size: size,
+      color: color != null ? color : defaults.color,
+      size: size != null ? size : defaults.size,
       rounded: rounded
     }), className),
     onClick: onClick
   }, props), children);
-};
-Button.defaultProps = {
-  size: "md",
-  color: "accent"
 };
 
 var icons = {
@@ -288,6 +336,7 @@ var Checkbox = function Checkbox(_ref) {
     className = _ref.className,
     toggleControlAltClass = _ref.toggleControlAltClass,
     toggleControlClassname = _ref.toggleControlClassname;
+  var defaults = useDefaults("Checkbox");
   var _useState = React.useState(defaultChecked || false),
     checked = _useState[0],
     setChecked = _useState[1];
@@ -296,11 +345,11 @@ var Checkbox = function Checkbox(_ref) {
     onChange && onChange(!checked);
   }, [checked]);
   return React__default.createElement("div", {
-    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", toggleControlClassname, layout)
+    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", toggleControlClassname, layout != null ? layout : defaults.layout)
   }, React__default.createElement("button", {
     onClick: toggle,
     className: classNames(altClass != null ? altClass : "hydra-checkbox", generateMods({
-      color: color
+      color: color != null ? color : defaults.color
     }), className),
     "data-checked": checked
   }, checked && React__default.createElement("i", {
@@ -309,9 +358,6 @@ var Checkbox = function Checkbox(_ref) {
     className: "label-wrap",
     onClick: toggle
   }, React__default.createElement("label", null, typeof label === "function" ? label(checked) : label)));
-};
-Checkbox.defaultProps = {
-  layout: "horizontal"
 };
 
 var MenuAction = function MenuAction(_ref) {
@@ -453,7 +499,7 @@ var MenuActions = function MenuActions(_ref) {
   }));
 };
 
-var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "size", "itemsBordered", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
+var _excluded$1 = ["isOpen", "close", "actions", "config", "origin", "top", "right", "bottom", "left", "actionSize", "itemsBordered", "leaveDoesCloseMenu", "actionClickDoesCloseMenu", "className"];
 var Menu = React.forwardRef(function (_ref, ref) {
   var isOpen = _ref.isOpen,
     close = _ref.close,
@@ -464,12 +510,13 @@ var Menu = React.forwardRef(function (_ref, ref) {
     right = _ref.right,
     bottom = _ref.bottom,
     left = _ref.left,
-    size = _ref.size,
+    actionSize = _ref.actionSize,
     itemsBordered = _ref.itemsBordered,
     leaveDoesCloseMenu = _ref.leaveDoesCloseMenu,
     actionClickDoesCloseMenu = _ref.actionClickDoesCloseMenu,
     className = _ref.className,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$1);
+  var defaults = useDefaults("Menu");
   var _useState = React.useState(false),
     isAnimating = _useState[0],
     setIsAnimating = _useState[1];
@@ -487,7 +534,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
     return value;
   };
   var onMouseLeave = function onMouseLeave() {
-    if (leaveDoesCloseMenu) {
+    if (leaveDoesCloseMenu != null ? leaveDoesCloseMenu : defaults.leaveDoesCloseMenu) {
       close();
     }
   };
@@ -501,7 +548,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
       duration: 0
     } : transition.ui.menu,
     className: classNames("hydra-menu", className, generateMods({
-      size: size,
+      actionSize: actionSize != null ? actionSize : defaults.actionSize,
       itemsBordered: itemsBordered
     })),
     style: {
@@ -529,7 +576,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
     className: "wfull p-0"
   }, React__default.createElement(MenuActions, {
     actions: actions,
-    actionClickDoesCloseMenu: actionClickDoesCloseMenu,
+    actionClickDoesCloseMenu: actionClickDoesCloseMenu != null ? actionClickDoesCloseMenu : defaults.actionClickDoesCloseMenu,
     close: close,
     config: config != null ? config : {
       color: "default"
@@ -539,7 +586,7 @@ var Menu = React.forwardRef(function (_ref, ref) {
 Menu.defaultProps = {
   origin: "top left",
   top: "1rem",
-  size: "sm",
+  actionSize: "sm",
   leaveDoesCloseMenu: false,
   actionClickDoesCloseMenu: true
 };
@@ -558,7 +605,6 @@ var Dropdown = function Dropdown(_ref) {
     actions: actions
   }, menu, menuProps)));
 };
-Dropdown.defaultProps = {};
 
 var SegmentedControl = function SegmentedControl(_ref) {
   var segments = _ref.segments,
@@ -567,6 +613,7 @@ var SegmentedControl = function SegmentedControl(_ref) {
     altClass = _ref.altClass,
     className = _ref.className,
     iconsOnly = _ref.iconsOnly;
+  var defaults = useDefaults("SegmentedControl");
   var _useState = React.useState(undefined),
     selected = _useState[0],
     setSelected = _useState[1];
@@ -600,7 +647,7 @@ var SegmentedControl = function SegmentedControl(_ref) {
   }, [selected]);
   return React__default.createElement("div", {
     className: classNames(altClass != null ? altClass : "hydra-segmented-control", className, generateMods({
-      iconsOnly: iconsOnly
+      iconsOnly: iconsOnly != null ? iconsOnly : defaults.iconsOnly
     })),
     onMouseLeave: function onMouseLeave() {
       return select(segments[selected || 0]);
@@ -687,6 +734,7 @@ var Switch = function Switch(_ref) {
     label = _ref.label,
     layout = _ref.layout,
     color = _ref.color;
+  var defaults = useDefaults("Switch");
   var _useState = React.useState(defaultOn || false),
     on = _useState[0],
     setOn = _useState[1];
@@ -695,12 +743,12 @@ var Switch = function Switch(_ref) {
     onChange && onChange(!on);
   }, [on]);
   return React__default.createElement("div", {
-    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", layout, toggleControlClassname)
+    className: classNames(toggleControlAltClass != null ? toggleControlAltClass : "hydra-toggle-control", layout != null ? layout : defaults.layout, toggleControlClassname)
   }, React__default.createElement("button", {
     onClick: toggle,
     className: classNames(altClass != null ? altClass : "hydra-switch", generateMods({
       on: on,
-      color: color
+      color: color != null ? color : defaults.color
     }), className)
   }, React__default.createElement("div", {
     className: "bg"
@@ -717,9 +765,13 @@ Switch.defaultProps = {
 exports.Button = Button;
 exports.Checkbox = Checkbox;
 exports.Dropdown = Dropdown;
+exports.HydraContext = HydraContext;
+exports.HydraProvider = HydraProvider;
 exports.Menu = Menu;
 exports.SegmentedControl = SegmentedControl;
 exports.Select = Select;
 exports.Switch = Switch;
+exports.defaultConfig = defaultConfig;
 exports.useDynamicPanel = useDynamicPanel;
+exports.useHydra = useHydra;
 //# sourceMappingURL=index.js.map

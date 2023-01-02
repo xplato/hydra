@@ -246,7 +246,7 @@ const Home = () => {
 							<Dropdown
 								actions={dropdownActions}
 								menuProps={{
-									size: "sm",
+									actionSize: "sm",
 								}}
 							/>
 						</Block>

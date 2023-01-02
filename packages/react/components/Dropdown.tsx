@@ -9,7 +9,7 @@ import { Menu, MenuProps } from "./Menu"
 
 import { Action } from "../types"
 
-interface DropdownProps {
+export interface DropdownProps {
 	actions: Action[]
 	menuProps?: Partial<MenuProps>
 }
@@ -31,5 +31,3 @@ export const Dropdown = ({ actions, menuProps }: DropdownProps) => {
 		</div>
 	)
 }
-
-Dropdown.defaultProps = {}

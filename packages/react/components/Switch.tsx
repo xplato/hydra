@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
+import { useDefaults } from "../hooks/useDefaults"
+
 import { generateMods } from "../logic"
 
-import { Color, Layout } from '../types'
+import { Color, Layout } from "../types"
 
 export interface SwitchProps {
 	label?: string | ((currentValue: boolean) => string)
@@ -28,6 +30,7 @@ export const Switch = ({
 	layout,
 	color,
 }: SwitchProps) => {
+	const defaults = useDefaults("Switch")
 	const [on, setOn] = useState(defaultOn || false)
 
 	const toggle = useCallback(() => {
@@ -39,7 +42,7 @@ export const Switch = ({
 		<div
 			className={classNames(
 				toggleControlAltClass ?? "hydra-toggle-control",
-				layout,
+				layout ?? defaults.layout,
 				toggleControlClassname
 			)}
 		>
@@ -47,7 +50,7 @@ export const Switch = ({
 				onClick={toggle}
 				className={classNames(
 					altClass ?? "hydra-switch",
-					generateMods({ on, color }),
+					generateMods({ on, color: color ?? defaults.color }),
 					className
 				)}
 			>

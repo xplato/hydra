@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from "react"
 import classNames from "classnames"
 
+import { useDefaults } from "../hooks/useDefaults"
+
 import { generateMods } from "../logic"
 import { icons } from "../data"
 
-import { Color, Layout } from '../types'
+import { Color, Layout } from "../types"
 
-interface CheckboxProps {
+export interface CheckboxProps {
 	onChange?: (currentValue: boolean) => void
 	label?: string | ((currentValue: boolean) => string)
 	layout?: Layout
@@ -29,6 +31,7 @@ export const Checkbox = ({
 	toggleControlAltClass,
 	toggleControlClassname,
 }: CheckboxProps) => {
+	const defaults = useDefaults("Checkbox")
 	const [checked, setChecked] = useState(defaultChecked || false)
 
 	const toggle = useCallback(() => {
@@ -41,14 +44,14 @@ export const Checkbox = ({
 			className={classNames(
 				toggleControlAltClass ?? "hydra-toggle-control",
 				toggleControlClassname,
-				layout
+				layout ?? defaults.layout
 			)}
 		>
 			<button
 				onClick={toggle}
 				className={classNames(
 					altClass ?? "hydra-checkbox",
-					generateMods({ color }),
+					generateMods({ color: color ?? defaults.color }),
 					className
 				)}
 				data-checked={checked}
@@ -65,8 +68,4 @@ export const Checkbox = ({
 			)}
 		</div>
 	)
-}
-
-Checkbox.defaultProps = {
-	layout: "horizontal",
 }

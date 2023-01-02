@@ -2,6 +2,8 @@ import React, { ForwardedRef, forwardRef, useState } from "react"
 import { AnimatePresence, useReducedMotion, motion } from "framer-motion"
 import classNames from "classnames"
 
+import { useDefaults } from "../../hooks/useDefaults"
+
 import MenuActions from "./MenuActions"
 
 import { transition, variants } from "../../data"
@@ -22,7 +24,7 @@ export interface MenuProps {
 	bottom?: number | string | boolean
 	left?: number | string | boolean
 
-	size?: "sm" | "md"
+	actionSize?: "sm" | "md"
 
 	// Mods
 	itemsBordered?: boolean
@@ -47,7 +49,7 @@ export const Menu = forwardRef(
 			bottom,
 			left,
 
-			size,
+			actionSize,
 
 			itemsBordered,
 			leaveDoesCloseMenu,
@@ -58,6 +60,7 @@ export const Menu = forwardRef(
 		}: MenuProps,
 		ref: ForwardedRef<HTMLDivElement>
 	) => {
+		const defaults = useDefaults("Menu")
 		const [isAnimating, setIsAnimating] = useState(false)
 
 		const shouldReduceMotion = useReducedMotion()
@@ -81,7 +84,7 @@ export const Menu = forwardRef(
 		}
 
 		const onMouseLeave = () => {
-			if (leaveDoesCloseMenu) {
+			if (leaveDoesCloseMenu ?? defaults.leaveDoesCloseMenu) {
 				close()
 			}
 		}
@@ -105,7 +108,10 @@ export const Menu = forwardRef(
 						className={classNames(
 							"hydra-menu",
 							className,
-							generateMods({ size, itemsBordered })
+							generateMods({
+								actionSize: actionSize ?? defaults.actionSize,
+								itemsBordered,
+							})
 						)}
 						style={{
 							transformOrigin: origin,
@@ -128,7 +134,8 @@ export const Menu = forwardRef(
 							<MenuActions
 								actions={actions}
 								actionClickDoesCloseMenu={
-									actionClickDoesCloseMenu
+									actionClickDoesCloseMenu ??
+									defaults.actionClickDoesCloseMenu
 								}
 								close={close}
 								config={
@@ -162,7 +169,7 @@ export const Menu = forwardRef(
 Menu.defaultProps = {
 	origin: "top left",
 	top: "1rem",
-	size: "sm",
+	actionSize: "sm",
 
 	leaveDoesCloseMenu: false,
 	actionClickDoesCloseMenu: true,
