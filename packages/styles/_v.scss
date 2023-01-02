@@ -1,5 +1,6 @@
 // Variables!
 
+// Breakpoints
 $breakpoints: (
 	// 'xxxxl' '2200px',
 	// 'xxxl' '1900px',
@@ -17,34 +18,6 @@ $lg: 1024px;
 $md: 768px;
 $sm: 520px;
 $xs: 380px;
-
-$colors: (
-	"accent",
-	"rose",
-	"pink",
-	"fuchsia",
-	"purple",
-	"violet",
-	"indigo",
-	"blue",
-	"sky",
-	"cyan",
-	"teal",
-	"emerald",
-	"green",
-	"lime",
-	"yellow",
-	"amber",
-	"orange",
-	"red",
-	"slate",
-	"gray",
-	"zinc",
-	"neutral",
-	"stone"
-);
-
-$shades: ("slate", "gray", "zinc", "neutral", "stone");
 
 // Component
 $default-height: 2.5rem;

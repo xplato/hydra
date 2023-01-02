@@ -1,4 +1,5 @@
 @use "../v";
+@use "../colors";
 @use "../effects";
 
 .hydra-checkbox {
@@ -45,7 +46,7 @@
 		}
 	}
 	
-	@each $color in v.$colors {
+	@each $color in colors.$colors {
 		&[data-checked="true"].color-#{$color} {
 			background-color: var(--#{$color}-500) !important;
 			box-shadow: 0 2px 0 0 var(--#{$color}-600) !important;

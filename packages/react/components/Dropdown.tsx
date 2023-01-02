@@ -19,7 +19,9 @@ export const Dropdown = ({ actions, menuProps }: DropdownProps) => {
 
 	return (
 		<div className="hydra-dropdown">
-			<Button onClick={menu.toggle}>Open</Button>
+			<Button onClick={menu.toggle} size="sm">
+				Open
+			</Button>
 			<Menu
 				top={menuProps?.top || 42}
 				actions={actions}

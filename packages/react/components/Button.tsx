@@ -9,7 +9,7 @@ import { Color } from "../types"
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 	variant?: "default" | "secondary"
 	color: Color
-	size?: "sm" | "default" | "lg"
+	size?: "sm" | "md" | "lg"
 	rounded?: boolean
 	altClass?: string
 	className?: string
@@ -46,6 +46,6 @@ export const Button = ({
 }
 
 Button.defaultProps = {
-	size: "default",
+	size: "md",
 	color: "accent",
 }

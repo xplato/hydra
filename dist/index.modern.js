@@ -107,7 +107,7 @@ const Button = ({
   }, props), children);
 };
 Button.defaultProps = {
-  size: "default",
+  size: "md",
   color: "accent"
 };
 
@@ -489,7 +489,8 @@ const Dropdown = ({
   return React.createElement("div", {
     className: "hydra-dropdown"
   }, React.createElement(Button, {
-    onClick: menu.toggle
+    onClick: menu.toggle,
+    size: "sm"
   }, "Open"), React.createElement(Menu, Object.assign({
     top: (menuProps === null || menuProps === void 0 ? void 0 : menuProps.top) || 42,
     actions: actions

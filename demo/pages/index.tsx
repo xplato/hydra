@@ -267,7 +267,7 @@ const Home = () => {
 								triggerChildren={option => (
 									<span>{option.label}</span>
 								)}
-								triggerClassName="hydra-button color-accent"
+								triggerClassName="hydra-button color-accent size-sm"
 								onChange={option => setAccent(option.value)}
 								defaultSelected={{
 									label:
@@ -311,7 +311,7 @@ const Home = () => {
 								triggerChildren={option => (
 									<span>{option.label}</span>
 								)}
-								triggerClassName="hydra-button color-accent"
+								triggerClassName="hydra-button color-accent size-sm"
 								onChange={option => setShade(option.value)}
 								defaultSelected={{
 									label:
@@ -328,6 +328,7 @@ const Home = () => {
 								]}
 								menuProps={{
 									top: 42,
+									itemsBordered: true,
 								}}
 							/>
 						</Block>

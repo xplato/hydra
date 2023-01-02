@@ -12,11 +12,13 @@ $size: 14rem;
 	box-shadow: rgb(27 31 36 / 12%) 0px 1px 3px,
 		rgb(66 74 83 / 12%) 0px 8px 24px;
 	will-change: transform;
+	perspective: 1000px;
 	position: absolute;
 	z-index: 20;
 
 	html.dark & {
 		background-color: var(--bg-100);
+		box-shadow: 0 0 1px 1px var(--bg-200);
 	}
 }
 
@@ -130,11 +132,12 @@ $size: 14rem;
 
 	// Mods
 	&.items-bordered {
-		&, & .hydra-submenu {
+		&,
+		& .hydra-submenu {
 			padding: 0;
 		}
 
-		& .action-wrap {
+		& .action-wrap, & .wrapper {
 			padding: 0;
 		}
 
