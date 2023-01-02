@@ -2,9 +2,15 @@
 
 A multi-headed component library for React.
 
+**Note:** This is a work in progress. It is not yet ready for production use. When it is, this message will be removed and version 1 will be released on NPM.
+
+[**View the TODO**](https://github.com/xplato/hydra/issues/1)
+
 ## Documentation
 
 ### Installation
+
+**Note:** Hydra is **not yet published to NPM.** You can install it directly from GitHub using yarn: `yarn add xplato/hydra` or npm: `npm install xplato/hydra`.
 
 ```bash
 yarn add @xplato/hydra

@@ -5,6 +5,7 @@ import { generateMods } from "../logic"
 
 import { Color } from "../types"
 
+// TS doesn't like my color prop lol
 // @ts-ignore
 export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 	variant?: "default" | "secondary"

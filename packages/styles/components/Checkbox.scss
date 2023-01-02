@@ -2,10 +2,12 @@
 @use "../colors";
 @use "../effects";
 
+$size: 1.25rem;
+
 .hydra-checkbox {
 	appearance: none;
-	width: calc(1.25rem + 2px);
-	height: 1.25rem;
+	width: calc($size + 2px);
+	height: $size;
 	background-color: var(--bg-200);
 	border: none;
 	border-radius: 0.25rem;

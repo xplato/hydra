@@ -20,6 +20,7 @@
 	& .indicator {
 		height: calc(100% - 3px);
 		position: absolute;
+		top: 2px;
 		z-index: 1;
 		transition: var(--d-m-2) var(--e-s);
 
