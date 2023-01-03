@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react"
 import classNames from "classnames"
 
-import { useDefaults } from '../hooks/useDefaults'
+import { useDefaults } from "../hooks/useDefaults"
 
 import { generateMods } from "../logic"
 
@@ -33,23 +33,26 @@ export const Button = ({
 
 	const onClick: MouseEventHandler<HTMLButtonElement> = ev => {
 		if (_onClick) _onClick(ev)
+		if (typeof defaults.onClick === "function") defaults.onClick(ev)
 	}
 
 	return (
 		// @ts-ignore - color prop
 		<button
 			className={classNames(
-				altClass ?? "hydra-button",
+				altClass ?? defaults.altClass ?? "hydra-button",
 				generateMods({
 					variant,
 					color: color ?? defaults.color,
 					size: size ?? defaults.size,
 					rounded,
 				}),
-				className
+				className,
+				defaults.className
 			)}
 			onClick={onClick}
 			{...props}
+			{...defaults.extras}
 		>
 			{children}
 		</button>

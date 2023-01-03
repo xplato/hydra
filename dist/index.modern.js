@@ -101,7 +101,10 @@ const useDefaults = key => {
   const {
     defaultProps
   } = useHydra();
-  return defaultProps[key] || defaultConfig.defaultProps[key];
+  return {
+    ...defaultProps[key],
+    ...defaultConfig.defaultProps[key]
+  };
 };
 
 const kebabize = str => {
@@ -153,16 +156,17 @@ const Button = ({
   const defaults = useDefaults("Button");
   const onClick = ev => {
     if (_onClick) _onClick(ev);
+    if (typeof defaults.onClick === "function") defaults.onClick(ev);
   };
   return React.createElement("button", Object.assign({
-    className: classNames(altClass ?? "hydra-button", generateMods({
+    className: classNames(altClass ?? defaults.altClass ?? "hydra-button", generateMods({
       variant,
       color: color ?? defaults.color,
       size: size ?? defaults.size,
       rounded
-    }), className),
+    }), className, defaults.className),
     onClick: onClick
-  }, props), children);
+  }, props, defaults.extras), children);
 };
 
 const icons = {

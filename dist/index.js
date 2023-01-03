@@ -129,7 +129,7 @@ var useDynamicPanel = function useDynamicPanel() {
 var useDefaults = function useDefaults(key) {
   var _useHydra = useHydra(),
     defaultProps = _useHydra.defaultProps;
-  return defaultProps[key] || defaultConfig.defaultProps[key];
+  return _extends({}, defaultProps[key], defaultConfig.defaultProps[key]);
 };
 
 var kebabize = function kebabize(str) {
@@ -170,6 +170,7 @@ var omitFields = function omitFields(object, fields) {
 
 var _excluded = ["variant", "color", "size", "rounded", "onClick", "altClass", "className", "children"];
 var Button = function Button(_ref) {
+  var _ref2;
   var variant = _ref.variant,
     color = _ref.color,
     size = _ref.size,
@@ -182,16 +183,17 @@ var Button = function Button(_ref) {
   var defaults = useDefaults("Button");
   var onClick = function onClick(ev) {
     if (_onClick) _onClick(ev);
+    if (typeof defaults.onClick === "function") defaults.onClick(ev);
   };
   return React__default.createElement("button", Object.assign({
-    className: classNames(altClass != null ? altClass : "hydra-button", generateMods({
+    className: classNames((_ref2 = altClass != null ? altClass : defaults.altClass) != null ? _ref2 : "hydra-button", generateMods({
       variant: variant,
       color: color != null ? color : defaults.color,
       size: size != null ? size : defaults.size,
       rounded: rounded
-    }), className),
+    }), className, defaults.className),
     onClick: onClick
-  }, props), children);
+  }, props, defaults.extras), children);
 };
 
 var icons = {

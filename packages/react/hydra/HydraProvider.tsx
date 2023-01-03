@@ -1,6 +1,6 @@
 import React, { createContext } from "react"
 
-import { defaultConfig } from "./default"
+import { defaultConfig } from "./defaults"
 import { HydraConfig, THydraContext } from "./types"
 import { Children } from "../types"
 

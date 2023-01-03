@@ -6,14 +6,19 @@ import { SegmentedControlProps } from "../components/SegmentedControl";
 import { SelectProps } from "../components/Select";
 import { SwitchProps } from "../components/Switch";
 export declare type ComponentKey = "Button" | "Checkbox" | "Dropdown" | "Menu" | "SegmentedControl" | "Select" | "Switch";
+export declare type DefaultPropsObject<T> = Partial<T> & {
+    extras?: {
+        [key: string]: any;
+    };
+};
 export interface DefaultProps {
-    Button: Partial<ButtonProps>;
-    Checkbox: Partial<CheckboxProps>;
-    Dropdown: Partial<DropdownProps>;
-    Menu: Partial<MenuProps>;
-    SegmentedControl: Partial<SegmentedControlProps>;
-    Select: Partial<SelectProps>;
-    Switch: Partial<SwitchProps>;
+    Button: DefaultPropsObject<ButtonProps>;
+    Checkbox: DefaultPropsObject<CheckboxProps>;
+    Dropdown: DefaultPropsObject<DropdownProps>;
+    Menu: DefaultPropsObject<MenuProps>;
+    SegmentedControl: DefaultPropsObject<SegmentedControlProps>;
+    Select: DefaultPropsObject<SelectProps>;
+    Switch: DefaultPropsObject<SwitchProps>;
 }
 export interface HydraConfig {
     defaultProps: DefaultProps;
